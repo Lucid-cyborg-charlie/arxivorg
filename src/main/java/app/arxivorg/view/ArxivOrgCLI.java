@@ -1,4 +1,4 @@
-package app.arxivorg;
+package app.arxivorg.view;
 
 import java.util.Scanner;
 
