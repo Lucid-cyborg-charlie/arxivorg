@@ -2,6 +2,7 @@ package app.arxivorg.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Article {
 
@@ -10,8 +11,7 @@ public class Article {
     private String summary;
     private String updated;
     private String published;
-    private List<String> authors;
-    private List<String> categories;
+    private List<ArticleCategorie> articleCategories;
 
 
     public Article(){ }
@@ -22,8 +22,7 @@ public class Article {
         this.summary = summary;
         this.updated = updated;
         this.published = published;
-        this.authors = new ArrayList<>();
-        this.categories = new ArrayList<>();
+        this.articleCategories = new ArrayList<>();
     }
 
     public String getId() {
@@ -63,19 +62,31 @@ public class Article {
         this.published = published;
     }
 
-    public List<String> getAuthors() {
-        return authors;
+    private void addArtcleCategorie(ArticleCategorie articleCategorie){
+        this.articleCategories.add(articleCategorie);
     }
 
-    public void addAuthor(String author) {
-        this.authors.add(author);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return id.equals(article.id);
     }
 
-    public List<String> getCategory() {
-        return categories;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
-    public void addCategory(String category) {
-        this.categories.add(category);
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", summary='" + summary + '\'' +
+                ", updated='" + updated + '\'' +
+                ", published='" + published + '\'' +
+                '}';
     }
 }
