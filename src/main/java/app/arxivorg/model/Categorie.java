@@ -7,25 +7,54 @@ import java.util.Objects;
 public class Categorie {
 
     private String name;
-    private List<ArticleCategorie> articleCategories;
+    private List<ArticleCategorie> categorieArticles;
 
+    /**
+     * construction
+     * @param name
+     */
     public Categorie( String name){
         this.name = name;
-        this.articleCategories = new ArrayList<>();
+        this.categorieArticles = new ArrayList<>();
     }
 
+    /**
+     *
+     * @return category name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * set category name
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
-    public void addArticleCategorie(ArticleCategorie articleCategorie){
-        this.articleCategories.add(articleCategorie);
+    /**
+     * add articleCategory in categorieArticle list
+     * @param articleCategorie
+     */
+    public void addCategorieArticle(ArticleCategorie articleCategorie){
+        this.categorieArticles.add(articleCategorie);
     }
 
+    /**
+     *
+     * @return categorieArticle list
+     */
+    public List<ArticleCategorie> getCategorieArticles() {
+        return categorieArticles;
+    }
+
+    /**
+     * verify equality between two categories
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -39,10 +68,12 @@ public class Categorie {
         return Objects.hash(name);
     }
 
+    /**
+     *
+     * @return category description
+     */
     @Override
     public String toString() {
-        return "Categorie{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

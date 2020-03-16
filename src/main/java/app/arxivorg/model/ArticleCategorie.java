@@ -12,22 +12,44 @@ public class ArticleCategorie {
         this.categorie = categorie;
     }
 
+    /**
+     *
+     * @return article
+     */
     public Article getArticle() {
         return article;
     }
 
+    /**
+     * set article
+     * @param article
+     */
     public void setArticle(Article article) {
         this.article = article;
     }
 
+    /**
+     *
+     * @return category
+     */
     public Categorie getCategorie() {
         return categorie;
     }
 
+    /**
+     * set category
+     * @param categorie
+     */
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
 
+
+    /**
+     * verify equality between two articleCategorie
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,6 +63,5 @@ public class ArticleCategorie {
     public int hashCode() {
         return Objects.hash(article, categorie);
     }
-
 
 }
