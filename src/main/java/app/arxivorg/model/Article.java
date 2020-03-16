@@ -118,7 +118,6 @@ public class Article {
     public String getPublished() {
         return published;
     }
-
     /**
      * set article publication
      * @param published
@@ -140,7 +139,7 @@ public class Article {
      *
      * @return articleCategories list
      */
-    private List<ArticleCategorie> getArticleCategories(){ return this.articleCategories ;}
+    public List<ArticleCategorie> getArticleCategories(){ return this.articleCategories ;}
 
     public void addArticleAuthor(ArticleAuthor articleAuthor){
         this.articleAuthors.add(articleAuthor);

@@ -20,6 +20,13 @@ class ManagerArticleTest {
 
     @Test
     void getArticlesByCategory() {
+        ManagerArticle mangerarticletest = new ManagerArticle();
+        Categorie cat = new Categorie("cs.AI");
+        int count=0;
+        for(Article article: mangerarticletest.getArticlesByCategory(cat)){
+            count++;
+            System.out.println("Titre"+count+": "+article.getTitle());
+        }
     }
 
     @Test

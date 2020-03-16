@@ -17,7 +17,7 @@ public class User {
     public void saveArticle(){ }
 
     /**
-     * load Article
+     * remove Article
      */
-    public void loadArticle(){ }
+    public void removeArticle(){ }
 }
