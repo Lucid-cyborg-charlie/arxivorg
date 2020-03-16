@@ -11,7 +11,13 @@ public class User {
         this.favoris = new ArrayList<>();
     }
 
+    /**
+     * save favorite articles
+     */
     public void saveArticle(){ }
 
+    /**
+     * load Article
+     */
     public void loadArticle(){ }
 }
