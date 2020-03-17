@@ -16,6 +16,10 @@ public class ManagerArticle {
     private Set<Categorie> categories;
     private List<String> periods;
 
+
+    /**
+     * Constructor
+     */
     public ManagerArticle(){
         this.periods = new ArrayList<>();
         this.articles = new ArrayList<>();
@@ -42,12 +46,15 @@ public class ManagerArticle {
                 article.setId(entry.getUri());
                 article.setTitle(entry.getTitle());
                 article.setSummary(entry.getDescription().getValue());
-                article.setUpdated(entry.getUpdatedDate().toString());
-                Date date = entry.getPublishedDate();
-                String[] d = date.toString().split(" ");
-                article.setPublished(d[d.length-1]);
-                this.periods.add(d[d.length - 1]);
-                System.out.println(d[d.length - 1]);
+
+                Date date1 = entry.getUpdatedDate();
+                String[] d1 = date1.toString().split(" ");
+                article.setUpdated(d1[d1.length-1]);
+
+                Date date2 = entry.getPublishedDate();
+                String[] d2 = date2.toString().split(" ");
+                article.setPublished(d2[d2.length-1]);
+                this.periods.add(d2[d2.length - 1]);
 
                 // Get the authors
                 for(SyndPersonImpl author: (List<SyndPersonImpl>) entry.getAuthors()){
@@ -72,10 +79,18 @@ public class ManagerArticle {
     public List<Article> getArticles() { return articles;
     }
 
+    /**
+     *
+     * @return authors
+     */
     public Set<Author> getAuthors() {
         return authors;
     }
 
+    /**
+     *
+     * @return categories
+     */
     public Set <Categorie> getCategories() {
         return categories;
     }
@@ -83,13 +98,12 @@ public class ManagerArticle {
     /**
      *
      * @param categorie
-     * @return  article by category list
+     * @return  articles by category
      */
     public List<Article> getArticlesByCategory(Categorie categorie){
         List<Article> list = new ArrayList<>();
         for(Article article : articles){
             ArticleCategorie articlecategory = new ArticleCategorie(article,categorie);
-
             if(article.getArticleCategories().contains(articlecategory)){
                 list.add(article);
             }
