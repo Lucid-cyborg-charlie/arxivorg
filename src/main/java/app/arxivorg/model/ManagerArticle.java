@@ -14,18 +14,14 @@ public class ManagerArticle {
     private List<Article> articles;
     private Set<Author> authors;
     private Set<Categorie> categories;
-    private List<String> periods;
+    private Set<String> periods;
 
-
-    /**
-     * Constructor
-     */
     public ManagerArticle(){
-        this.periods = new ArrayList<>();
+        this.periods = new HashSet<>();
         this.articles = new ArrayList<>();
         this.authors = new HashSet<>();
         this.categories = new HashSet<>();
-        loadDataFromAtom("src/main/resources/dataFile.atom");
+        loadDataFromAtom("src/main/resources/test.atom");
     }
 
     /**
@@ -41,29 +37,30 @@ public class ManagerArticle {
 
             // Get the entry items...
             for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
-                //construction d'un article avec des infos élémentaires
+
+                // Article constructor
                 Article article=new Article();
                 article.setId(entry.getUri());
                 article.setTitle(entry.getTitle());
                 article.setSummary(entry.getDescription().getValue());
+                article.setUpdated(entry.getUpdatedDate().toString());
 
-                Date date1 = entry.getUpdatedDate();
-                String[] d1 = date1.toString().split(" ");
-                article.setUpdated(d1[d1.length-1]);
-
-                Date date2 = entry.getPublishedDate();
-                String[] d2 = date2.toString().split(" ");
-                article.setPublished(d2[d2.length-1]);
-                this.periods.add(d2[d2.length - 1]);
+                // Get date of publication
+                Date date = entry.getPublishedDate();
+                String[] d = date.toString().split(" ");
+                article.setPublished(d[d.length-1]);
+                this.periods.add(d[d.length - 1]);
 
                 // Get the authors
                 for(SyndPersonImpl author: (List<SyndPersonImpl>) entry.getAuthors()){
                     article.addArticleAuthor(new ArticleAuthor(article, new Author(author.getName())));
+                    this.authors.add(new Author(author.getName()));
                 }
 
                 // Get the Categories
                 for (SyndCategoryImpl categ : (List<SyndCategoryImpl>) entry.getCategories()) {
                     article.addArticleCategorie(new ArticleCategorie(article, new Categorie(categ.getName())));
+                    this.categories.add(new Categorie(categ.getName()));
                 }
                 this.articles.add(article);
             }
@@ -76,35 +73,32 @@ public class ManagerArticle {
      *
      * @return articles
      */
-    public List<Article> getArticles() { return articles;
+    public List<Article> getArticles(){
+        return articles;
     }
 
-    /**
-     *
-     * @return authors
-     */
     public Set<Author> getAuthors() {
         return authors;
     }
 
-    /**
-     *
-     * @return categories
-     */
     public Set <Categorie> getCategories() {
         return categories;
+    }
+
+    public Set<String> getPeriods(){
+        return this.periods;
     }
 
     /**
      *
      * @param categorie
-     * @return  articles by category
+     * @return  article by category list
      */
     public List<Article> getArticlesByCategory(Categorie categorie){
         List<Article> list = new ArrayList<>();
         for(Article article : articles){
-            ArticleCategorie articlecategory = new ArticleCategorie(article,categorie);
-            if(article.getArticleCategories().contains(articlecategory)){
+            ArticleCategorie articleCategory = new ArticleCategorie(article, categorie);
+            if(article.getArticleCategories().contains(articleCategory)){
                 list.add(article);
             }
         }
@@ -117,7 +111,7 @@ public class ManagerArticle {
      * @return articles by periode
      */
     public List<Article> getArticlesByPeriod(String date){
-        List<Article> list=new ArrayList<>();
+        List<Article> list = new ArrayList<>();
         for(Article article: articles){
             if(article.getPublished().equals(date)){
                 list.add(article);
@@ -133,13 +127,27 @@ public class ManagerArticle {
      */
     public List<Article> getArticlesByAuthor(Author author){
         List<Article> authors = new ArrayList<>();
+
         for(Article article : articles){
-            ArticleAuthor articleauthor = new ArticleAuthor(article,author);
-            if(article.getArticleCategories().contains(articleauthor)){
-                authors.add(article);
+            for(ArticleAuthor articleAuthor : article.getArticleAuthors()){
+                if(articleAuthor.getAuthor().equals(author)) authors.add(article);
             }
         }
         return authors;
     }
 
+    /**
+     *
+     * @param word
+     * @return article by keyWord
+     */
+    public List<Article> getArticleByKeyWord(String word){
+        List<Article> articleList = new ArrayList<>();
+        for(Article article : getArticles()){
+            if (article.getTitle().contains(word) || article.getSummary().contains(word)){
+                articleList.add(article);
+            }
+        }
+        return articleList;
+    }
 }

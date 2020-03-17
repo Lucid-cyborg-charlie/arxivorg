@@ -1,30 +1,31 @@
 package app.arxivorg.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class User {
 
-    private List<Article> favoris;
+    private Set<Article> favorites;
 
+    /**
+     * constructor
+     */
     public User(){
-        this.favoris = new ArrayList<>();
+        this.favorites = new HashSet<>();
     }
 
     /**
      * save favorite articles
-     */// ajout des artciles dans les favories
+     */
     public void saveArticle(Article article){
-        this.favoris.add(article);
+        this.favorites.add(article);
     }
 
     /**
-     * //supprimer la liste des articles dans les favories.
-     * remove Article
+     * remove an article from favorite
      */
     public void removeArticle(Article article){
-        if(favoris.contains(article)){
-            this.favoris.remove(article);
+        if(favorites.contains(article)){
+            this.favorites.remove(article);
         }
     }
 }
