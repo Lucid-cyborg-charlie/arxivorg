@@ -1,6 +1,7 @@
 package app.arxivorg.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public class Article {
     private String title;
     private String summary;
     private String updated;
-    private String published;
+    private Date published;
     private List<ArticleCategorie> articleCategories;
     private List<ArticleAuthor> articleAuthors;
 
@@ -34,7 +35,7 @@ public class Article {
      * @param updated
      * @param published
      */
-    public Article(String id, String title, String summary, String updated, String published){
+    public Article(String id, String title, String summary, String updated, Date published){
         this.id = id;
         this.title = title;
         this.summary = summary;
@@ -115,14 +116,14 @@ public class Article {
      *
      * @return article date of publication
      */
-    public String getPublished() {
+    public Date getPublished() {
         return published;
     }
     /**
      * set article publication
      * @param published
      */
-    public void setPublished(String published) {
+    public void setPublished(Date published) {
         this.published = published;
     }
 
