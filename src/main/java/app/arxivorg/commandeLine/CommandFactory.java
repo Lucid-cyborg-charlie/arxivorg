@@ -5,7 +5,7 @@ package app.arxivorg.commandeLine;
  */
 public abstract class CommandFactory {
     public static Command getCommand(String commandName){
-        if(commandName.equalsIgnoreCase("action")){
+        if(commandName.equalsIgnoreCase("list")){
             return new Lister();
         }else if(commandName.equalsIgnoreCase("exit")){
             return new Exiter();

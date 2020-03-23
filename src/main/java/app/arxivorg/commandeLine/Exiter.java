@@ -8,7 +8,7 @@ public class Exiter implements Command {
     @Override
     public void execute(Object[] args) {
         if(args.length!=0){
-            System.out.println("No reason to give me parameters, anyway I'll ignore them");
+            System.out.println("exit command don't take parameter");
         }
         System.exit(0);
     }

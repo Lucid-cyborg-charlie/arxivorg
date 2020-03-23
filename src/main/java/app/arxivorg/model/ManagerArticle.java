@@ -21,7 +21,7 @@ public class ManagerArticle {
         this.articles = new ArrayList<>();
         this.authors = new HashSet<>();
         this.categories = new HashSet<>();
-        loadDataFromAtom("src/main/resources/test.atom");
+        loadDataFromAtom("src/main/resources/dataFile.atom");
     }
 
     /**
@@ -87,6 +87,14 @@ public class ManagerArticle {
 
     public Set<String> getPeriods(){
         return this.periods;
+    }
+
+    /**
+     * set articles
+     * @param articles
+     */
+    public void setArticles(List<Article> articles){
+        this.articles = articles;
     }
 
     /**
