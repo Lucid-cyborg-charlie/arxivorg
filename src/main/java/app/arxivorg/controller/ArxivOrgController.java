@@ -8,7 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import org.controlsfx.control.textfield.TextFields;
 
+import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.*;
 
 
@@ -30,6 +32,10 @@ public class ArxivOrgController implements Initializable {
     private CheckBox favorisCheckBox;
 
     private  ManagerArticle managerArticle = new ManagerArticle();
+    private List<Article> articles = new ArrayList<>(managerArticle.getArticles());
+
+    public ArxivOrgController() throws IOException {
+    }
 
     // @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
@@ -67,7 +73,7 @@ public class ArxivOrgController implements Initializable {
      * show all period
      */
     public void showAllPeriod(){
-        this.periodComboBox.getItems().addAll(managerArticle.getPeriods());
+     this.periodComboBox.getItems().addAll(managerArticle.getPeriods());
     }
 
     /**
@@ -76,8 +82,8 @@ public class ArxivOrgController implements Initializable {
      */
     @FXML
     public void displaySelected(MouseEvent mouseEvent) {
-        int index=listView.getSelectionModel().getSelectedIndex();
-        Article article= managerArticle.getArticles().get(index);
+        int index = listView.getSelectionModel().getSelectedIndex();
+        Article article = getArticles().get(index);
         infosTextArea.setText("Title: "+article.getTitle()+"\nAuteurs: "+article.getArticleAuthors()
         +"\nDescription: \n"+article.getSummary()+"\nLien: "+article.getId());
     }
@@ -91,14 +97,13 @@ public class ArxivOrgController implements Initializable {
         int index = categorieComboBox.getSelectionModel().getSelectedIndex();
         List<Categorie> tmp = new ArrayList<>(managerArticle.getCategories());
         Categorie categorie = tmp.get(index);
+        this.setArticles(managerArticle.getArticlesByCategory(categorie));
 
-        List<String> values = new ArrayList<>();
-        String str = "";
-        for(Article article : managerArticle.getArticlesByCategory(categorie)){
-            str = str + "Titre: "+article.getTitle()+
-                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId();
-            values.add(str);
-        }listView.getItems().setAll(values);
+        listView.getItems().clear();
+        for(Article article: getArticles()){
+            listView.getItems().add("Titre: "+article.getTitle()+
+                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId());
+        }
     }
 
 
@@ -107,18 +112,15 @@ public class ArxivOrgController implements Initializable {
      * @param actionEvent
      */
     @FXML
-    public void displaySelectedByPeriod(ActionEvent actionEvent) {
+    public void displaySelectedByPeriod(ActionEvent actionEvent) throws ParseException {
         int index = periodComboBox.getSelectionModel().getSelectedIndex();
-        List<String> tmp = new ArrayList<>(managerArticle.getPeriods());
-        String date = tmp.get(index);
-        String str = "";
-        List<String> values = new ArrayList<>();
+        this.setArticles(managerArticle.getArticlesByPeriod(managerArticle.getPeriods().get(index)));
 
-        for(Article article : managerArticle.getArticlesByPeriod(date)){
-            str = str + "Titre: "+article.getTitle()+
-                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId();
-            values.add(str);
-        }listView.getItems().setAll(values);
+        listView.getItems().clear();
+        for(Article article: getArticles()){
+            listView.getItems().add("Titre: "+article.getTitle()+
+                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId());
+        }
     }
 
 
@@ -128,15 +130,13 @@ public class ArxivOrgController implements Initializable {
      */
     @FXML
     public void displaySelectedByAuthors(ActionEvent actionEvent) {
-        List<Article> articleList = managerArticle.getArticlesByAuthor(new Author(authorField.getCharacters().toString()));
-        String str = "";
-        List<String> values = new ArrayList<>();
+        setArticles(managerArticle.getArticlesByAuthor(new Author(authorField.getCharacters().toString())));
 
-        for(Article article : articleList){
-            str = str + "Titre: "+article.getTitle()+
-                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId();
-            values.add(str);
-        }listView.getItems().setAll(values);
+        listView.getItems().clear();
+        for(Article article: getArticles()){
+            listView.getItems().add("Titre: "+article.getTitle()+
+                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId());
+        }
     }
 
 
@@ -147,7 +147,6 @@ public class ArxivOrgController implements Initializable {
         Set<String> words = new HashSet<>();
         for(Article article : managerArticle.getArticles()){
             words.addAll(Arrays.asList(article.getTitle().split(" ")));
-            //words.addAll(Arrays.asList(article.getSummary().split(" ")));
         }
         return words;
     }
@@ -159,15 +158,13 @@ public class ArxivOrgController implements Initializable {
      */
     @FXML
     public void findKeyWord(ActionEvent actionEvent) {
-        List<Article> articleList = managerArticle.getArticleByKeyWord(keyWordField.getCharacters().toString());
-        String str = "";
-        List<String> values = new ArrayList<>();
+        setArticles(managerArticle.getArticleByKeyWord(keyWordField.getCharacters().toString()));
+        listView.getItems().clear();
+        for(Article article: getArticles()){
+            listView.getItems().add("Titre: "+article.getTitle()+
+                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId());
+        }
 
-        for(Article article : articleList){
-            str = str + "Titre: "+article.getTitle()+
-                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId();
-            values.add(str);
-        }listView.getItems().setAll(values);
     }
 
     /**
@@ -189,6 +186,17 @@ public class ArxivOrgController implements Initializable {
      * @param actionEvent
      */
     public void downloadArticle(ActionEvent actionEvent) {
+    }
 
+    /** set articles list
+     * @param articleList
+     */
+    public void setArticles(List<Article> articleList){
+        this.articles = articleList;
+    }
+
+
+    public List<Article> getArticles(){
+        return this.articles;
     }
 }
