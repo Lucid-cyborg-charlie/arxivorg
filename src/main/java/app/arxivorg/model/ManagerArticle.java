@@ -259,4 +259,7 @@ public class ManagerArticle {
         return this.periods;
     }
 
+    public void setArticles(List<Article> filterArticles) {
+        this.articles=filterArticles;
+    }
 }

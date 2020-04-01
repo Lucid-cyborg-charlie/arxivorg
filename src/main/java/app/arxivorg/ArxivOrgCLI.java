@@ -2,10 +2,12 @@ package app.arxivorg;
 
 import app.arxivorg.commandeLine.*;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class ArxivOrgCLI {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException, IOException {
         System.out.println("Welcome to the arXiv organizer!");
         System.out.println("You requested command '" + args[0] + "' with parameter '" + args[1] + "'");
 
@@ -18,10 +20,17 @@ public class ArxivOrgCLI {
             String[] splitedInput = userInput.split("[ ]+");
 
             //preparing data for creating and executing new command
-            String interpreterName = splitedInput[0];
-            String commandName = splitedInput[1];
-            Object[] commandArgs = new String[splitedInput.length-2];
-            System.arraycopy(splitedInput,2,commandArgs,0,commandArgs.length);
+            String interpreterName = null;
+            String commandName = null;
+            String[] commandArgs = null;
+            try{
+                interpreterName = splitedInput[0];
+                commandName = splitedInput[1];
+                commandArgs = new String[splitedInput.length-2];
+                System.arraycopy(splitedInput,2,commandArgs,0,commandArgs.length);
+            }catch (Exception e){
+
+            }
 
             //executing command
             if(interpreterName.equals("arxivorg")){
@@ -29,9 +38,9 @@ public class ArxivOrgCLI {
                 if(command!=null)
                     command.execute(commandArgs);
                 else
-                    System.out.println("Bad command. Try again or use help.");
+                    System.out.println("Invalid command. Try again or use help.");
             }else{
-                System.out.print("invalid interpreter");
+                System.out.println("Invalid command, start your command by arxivorg ");
             }
         }
     }

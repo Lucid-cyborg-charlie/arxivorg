@@ -1,10 +1,12 @@
 package app.arxivorg.commandeLine;
 
+import java.io.IOException;
+
 /**
  * Class CommandFactory
  */
 public abstract class CommandFactory {
-    public static Command getCommand(String commandName){
+    public static Command getCommand(String commandName) throws IOException {
         if(commandName.equalsIgnoreCase("list")){
             return new Lister();
         }else if(commandName.equalsIgnoreCase("exit")){
