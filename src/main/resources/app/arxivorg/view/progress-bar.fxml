@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="192.0" prefWidth="397.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ProgressBarController">
+   <children>
+      <ProgressBar fx:id="progressBar" layoutX="63.0" layoutY="82.0" prefHeight="35.0" prefWidth="279.0" progress="0.0" />
+      <Label fx:id="progressLabel" alignment="CENTER" layoutX="64.0" layoutY="47.0" prefHeight="35.0" prefWidth="279.0" text="Chargement en cours ...">
+         <font>
+            <Font name="Loma" size="15.0" />
+         </font>
+         <padding>
+            <Insets left="15.0" />
+         </padding></Label>
+      <Label fx:id="labelFullDownload" alignment="CENTER" layoutX="64.0" layoutY="117.0" prefHeight="35.0" prefWidth="279.0" text="Fichier télécharger avec succès" visible="false">
+         <font>
+            <Font name="Loma" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -7,11 +7,10 @@ import com.sun.syndication.feed.synd.SyndPersonImpl;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -39,9 +38,10 @@ public class ManagerArticle {
      * load atom file from arxiv api
      * @param
      */
-    private void loadDataFromAtom(){
+    private void loadDataFromAtom(){ //Renomer la fonction en loadDataFromAPI
         try {
 
+            //revoir la reqûete en utilsant search_query=all
             URL url = new URL("http://export.arxiv.org/api/query?search_query=cat:cs.CL&start=0&max_results=30&sortBy=submittedDate&sortOrder=descending");
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(url));
@@ -54,7 +54,7 @@ public class ManagerArticle {
                 article.setId(entry.getUri());
                 article.setTitle(entry.getTitle());
                 article.setSummary(entry.getDescription().getValue());
-                article.setUpdated(entry.getUpdatedDate().toString());
+                article.setUpdated(entry.getUpdatedDate().toString()); //Revoir
 
                 // Get date of publication
                 article.setPublished(entry.getPublishedDate());
@@ -187,7 +187,7 @@ public class ManagerArticle {
      * load all categories from a file in resources
      * @throws IOException if file didn't find
      */
-    private void loadCategories() throws IOException {
+    private void loadCategories() throws IOException { //Mettre en place un try-catch
         File file = new File("src/main/resources/categories.txt");
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -227,11 +227,12 @@ public class ManagerArticle {
         long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
         return period == diff;
-    }
+    } //Ecrire une fonction pour calculer la différence des dates
+
 
 
     /**
-     *  initialize all periods
+     *  Initialize all periods
      */
     public void initializePeriod(){
         periods.add("Tout");
@@ -240,7 +241,40 @@ public class ManagerArticle {
         periods.add("Avant hier");
     }
 
+    /**
+     * Download an article in pdf
+     * @param article
+     */
+    public static void downloadArticleToPDF(Article article){
+        URL url = null;
+        try {
+            String link1=article.getId().replace("abs","pdf");
+            String link2=link1.replace("http", "https");
+            url = new URL(link2);
+            try (InputStream in = url.openStream()) {
+                Path path1 = FileSystems.getDefault().getPath(System.getProperty("user.home"), "/Documents/", "arxivorg");
+                Files.createDirectories(path1);
+                String[] tab=article.getId().split("/");
+                String fineName=tab[tab.length-1];
+                Path path2= Paths.get(path1.toString().concat("/"+fineName+".pdf"));
+                Files.copy(in, path2, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                // handle exception
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Download several articles in pdf
+     * @param articles
+     */
+    public static void downloadSeveralArticlesToPDF(List<Article> articles){
+        for(Article article: articles){
+            downloadArticleToPDF(article);
+        }
+    }
 
 
     public List<Article> getArticles(){
@@ -259,4 +293,7 @@ public class ManagerArticle {
         return this.periods;
     }
 
+    public void setArticles(List<Article> filterArticles) {
+        this.articles=filterArticles;
+    }
 }
