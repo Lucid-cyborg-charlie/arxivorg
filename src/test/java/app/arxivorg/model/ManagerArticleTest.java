@@ -2,6 +2,8 @@ package app.arxivorg.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManagerArticleTest {
@@ -19,7 +21,7 @@ class ManagerArticleTest {
     }
 
     @Test
-    void getArticlesByCategory() {
+    void getArticlesByCategory() throws IOException {
         ManagerArticle mangerarticletest = new ManagerArticle();
         Categorie cat = new Categorie("cs.AI");
         int count=0;
