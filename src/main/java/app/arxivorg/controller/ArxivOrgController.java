@@ -3,9 +3,16 @@ package app.arxivorg.controller;
 import app.arxivorg.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.IOException;
@@ -17,11 +24,15 @@ import java.util.*;
 public class ArxivOrgController implements Initializable {
 
     @FXML
+    public Button oneDownloadButton;
+    @FXML
+    public BorderPane rootPane;
+    @FXML
     private ListView<String> listView;
     @FXML
     private TextArea infosTextArea;
     @FXML
-    private ComboBox<String> categorieComboBox;
+    private ComboBox<String> categoryComboBox;
     @FXML
     private ComboBox<String> periodComboBox;
     @FXML
@@ -29,10 +40,12 @@ public class ArxivOrgController implements Initializable {
     @FXML
     private TextField keyWordField;
     @FXML
-    private CheckBox favorisCheckBox;
+    private CheckBox favoriteCheckBox;
+
 
     private  ManagerArticle managerArticle = new ManagerArticle();
     private List<Article> articles = new ArrayList<>(managerArticle.getArticles());
+    private int currentIndexSelectInListView=-1;
 
     public ArxivOrgController() throws IOException {
     }
@@ -65,7 +78,7 @@ public class ArxivOrgController implements Initializable {
         for(Categorie var : managerArticle.getCategories()){
             categories.add(var.getName());
         }
-        categorieComboBox.getItems().addAll(categories);
+        categoryComboBox.getItems().addAll(categories);
     }
 
 
@@ -82,11 +95,13 @@ public class ArxivOrgController implements Initializable {
      */
     @FXML
     public void displaySelected(MouseEvent mouseEvent) {
-        int index = listView.getSelectionModel().getSelectedIndex();
-        Article article = getArticles().get(index);
+        oneDownloadButton.setDisable(false);
+        currentIndexSelectInListView = listView.getSelectionModel().getSelectedIndex();
+        Article article = getArticles().get(currentIndexSelectInListView);
         infosTextArea.setText("Title: "+article.getTitle()+"\nAuteurs: "+article.getArticleAuthors()
         +"\nDescription: \n"+article.getSummary()+"\nLien: "+article.getId());
     }
+
 
     /**
      * display article by category selected
@@ -94,7 +109,7 @@ public class ArxivOrgController implements Initializable {
      */
     @FXML
     public void displaySelectedByCategory(ActionEvent actionEvent) {
-        int index = categorieComboBox.getSelectionModel().getSelectedIndex();
+        int index = categoryComboBox.getSelectionModel().getSelectedIndex();
         List<Categorie> tmp = new ArrayList<>(managerArticle.getCategories());
         Categorie categorie = tmp.get(index);
         this.setArticles(managerArticle.getArticlesByCategory(categorie));
@@ -173,7 +188,7 @@ public class ArxivOrgController implements Initializable {
      */
     @FXML
     public void AddFavoriteArticle(ActionEvent actionEvent) {
-        if(favorisCheckBox.isSelected()){
+        if(favoriteCheckBox.isSelected()){
             int index = listView.getSelectionModel().getSelectedIndex();
             Article article = managerArticle.getArticles().get(index);
             User user = new User();
@@ -185,7 +200,46 @@ public class ArxivOrgController implements Initializable {
      * download an article
      * @param actionEvent
      */
-    public void downloadArticle(ActionEvent actionEvent) {
+    @FXML
+    public void downloadOneArticle(ActionEvent actionEvent){
+        Article article = getArticles().get(currentIndexSelectInListView);
+        List<Article> articles = new ArrayList<Article>();
+        articles.add(article);
+        displayDownloadProgressBar(articles);
+    }
+
+    /**
+     * Download several articles
+     * @param actionEvent
+     */
+    @FXML
+    public void downloadSeveralArticles(ActionEvent actionEvent) {
+        displayDownloadProgressBar(articles);
+    }
+
+    /**
+     * Displays the download progress bar
+     * @param articles
+     */
+    private void displayDownloadProgressBar(List<Article> articles){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/app/arxivorg/view/progress-bar.fxml"));
+        AnchorPane panel = null;
+        try {
+            //build stage of progressBar
+            panel = (AnchorPane) loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Téléchargement");
+            stage.setScene(new Scene(panel));
+            stage.setResizable(false);
+
+            //get progressBar controller
+            ProgressBarController progressBarController = loader.getController();
+            progressBarController.startProgress(articles);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /** set articles list
@@ -199,4 +253,5 @@ public class ArxivOrgController implements Initializable {
     public List<Article> getArticles(){
         return this.articles;
     }
+
 }
