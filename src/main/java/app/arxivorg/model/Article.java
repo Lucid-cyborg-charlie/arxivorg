@@ -15,7 +15,7 @@ public class Article {
     private String summary;
     private String updated;
     private Date published;
-    private List<ArticleCategorie> articleCategories;
+    private List<ArticleCategory> articleCategories;
     private List<ArticleAuthor> articleAuthors;
 
 
@@ -129,10 +129,10 @@ public class Article {
 
     /**
      * add an ArticleCategorie in articleCategories list
-     * @param articleCategorie
+     * @param articleCategory
      */
-    public void addArticleCategorie(ArticleCategorie articleCategorie){
-        this.articleCategories.add(articleCategorie);
+    public void addArticleCategory(ArticleCategory articleCategory){
+        this.articleCategories.add(articleCategory);
     }
 
 
@@ -140,7 +140,7 @@ public class Article {
      *
      * @return articleCategories list
      */
-    public List<ArticleCategorie> getArticleCategories(){ return this.articleCategories ;}
+    public List<ArticleCategory> getArticleCategories(){ return this.articleCategories ;}
 
     public void addArticleAuthor(ArticleAuthor articleAuthor){
         this.articleAuthors.add(articleAuthor);

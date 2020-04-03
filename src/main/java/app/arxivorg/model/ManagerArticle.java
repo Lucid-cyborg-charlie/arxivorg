@@ -21,10 +21,10 @@ public class ManagerArticle {
 
     private List<Article> articles;
     private Set<Author> authors;
-    private Set<Categorie> categories;
+    private Set<Category> categories;
     private List<String> periods;
 
-    public ManagerArticle() throws IOException {
+    public ManagerArticle() {
         this.periods = new ArrayList<>();
         this.articles = new ArrayList<>();
         this.authors = new HashSet<>();
@@ -101,7 +101,7 @@ public class ManagerArticle {
                     this.authors.add(new Author(author.getName()));
                 }
                 for (SyndCategoryImpl categ : (List<SyndCategoryImpl>) entry.getCategories()) {
-                    article.addArticleCategorie(new ArticleCategorie(article, new Categorie(categ.getName())));
+                    article.addArticleCategory(new ArticleCategory(article, new Category(categ.getName())));
 
                 }
                 articleList.add(article);
@@ -117,12 +117,12 @@ public class ManagerArticle {
 
     /**
      *
-     * @param categorie
+     * @param category
      * @return  article by category list
      */
-    public List<Article> getArticlesByCategory(Categorie categorie){
-        if(categorie.getName().equals("Toutes")) return articles;
-        return loadDataFromAtom("cat:"+categorie.getName());
+    public List<Article> getArticlesByCategory(Category category){
+        if(category.getName().equals("Toutes")) return articles;
+        return loadDataFromAtom("cat:"+ category.getName());
     }
 
     /**
@@ -130,13 +130,17 @@ public class ManagerArticle {
      * @param period
      * @return articles by periode
      */
-    public List<Article> getArticlesByPeriod(String period) throws ParseException {
+    public List<Article> getArticlesByPeriod(String period) {
         List<Article> list = new ArrayList<>();
         if (period.equals("Tout")) return articles;
         for(Article article : articles){
-            if(period.equals("Aujourd'hui") && findPeriod(article.getPublished(), 0)) list.add(article);
-            else if(period.equals("Hier") && findPeriod(article.getPublished(), 1)) list.add(article);
-            else if(period.equals("Avant hier") && findPeriod(article.getPublished(), 2)) list.add(article);
+            try {
+                if(period.equals("Aujourd'hui") && findPeriod(article.getPublished(), 0)) list.add(article);
+                else if(period.equals("Hier") && findPeriod(article.getPublished(), 1)) list.add(article);
+                else if(period.equals("Avant hier") && findPeriod(article.getPublished(), 2)) list.add(article);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }
@@ -187,13 +191,18 @@ public class ManagerArticle {
      * load all categories from a file in resources
      * @throws IOException if file didn't find
      */
-    private void loadCategories() throws IOException { //Mettre en place un try-catch
+    private void loadCategories() { //Mettre en place un try-catch
         File file = new File("src/main/resources/categories.txt");
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String category = "";
-        while ((category = bufferedReader.readLine()) != null){
-            this.categories.add(new Categorie(category));
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String category = "";
+            while ((category = bufferedReader.readLine()) != null){
+                this.categories.add(new Category(category));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -285,7 +294,7 @@ public class ManagerArticle {
         return authors;
     }
 
-    public Set <Categorie> getCategories() {
+    public Set <Category> getCategories() {
         return categories;
     }
 

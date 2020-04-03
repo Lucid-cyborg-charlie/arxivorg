@@ -2,11 +2,13 @@ package app.arxivorg.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManagerArticleTest {
+
+    private ManagerArticle managerArticle = new ManagerArticle();
 
     @Test
     void readFileAtom() {
@@ -21,14 +23,22 @@ class ManagerArticleTest {
     }
 
     @Test
-    void getArticlesByCategory() throws IOException {
-        ManagerArticle mangerarticletest = new ManagerArticle();
-        Categorie cat = new Categorie("cs.AI");
-        int count=0;
-        for(Article article: mangerarticletest.getArticlesByCategory(cat)){
-            count++;
-            System.out.println("Titre"+count+": "+article.getTitle());
+    void getArticlesByCategory(){
+        Category category = new Category("cs.AI");
+        List<Article> articles = managerArticle.getArticlesByCategory(category);
+        boolean isOk=true;
+        int count=articles.size();
+        int current=0;
+        for(Article article: articles){
+            ArticleCategory articleCategory = new ArticleCategory(article, category);
+            if(!article.getArticleCategories().contains(articleCategory)){
+                isOk=false;
+                current++;
+            }
         }
+        System.out.println("count="+count+" current="+current);
+        assertTrue(true==isOk);
+        assertEquals(true, isOk);
     }
 
     @Test

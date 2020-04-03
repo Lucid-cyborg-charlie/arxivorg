@@ -2,12 +2,11 @@ package app.arxivorg.commandeLine;
 
 import app.arxivorg.model.Article;
 import app.arxivorg.model.Author;
-import app.arxivorg.model.Categorie;
+import app.arxivorg.model.Category;
 import app.arxivorg.model.ManagerArticle;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +34,7 @@ public class Lister implements Command {
                         managerArticle.setArticles(filterArticles);
                     }
                     else if(args[i].toString().equals("-c")){
-                        filterArticles=managerArticle.getArticlesByCategory(new Categorie(args[i+1].toString()));
+                        filterArticles=managerArticle.getArticlesByCategory(new Category(args[i+1].toString()));
                         managerArticle.setArticles(filterArticles);
                     }
                     else if(args[i].toString().equals("-a")){

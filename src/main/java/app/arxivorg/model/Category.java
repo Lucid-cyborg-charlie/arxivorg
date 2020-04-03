@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Categorie {
+public class Category {
 
     private String name;
-    private List<ArticleCategorie> categorieArticles;
+    private List<ArticleCategory> categoryArticles;
 
     /**
      * construction
      * @param name
      */
-    public Categorie( String name){
+    public Category(String name){
         this.name = name;
-        this.categorieArticles = new ArrayList<>();
+        this.categoryArticles = new ArrayList<>();
     }
 
     /**
@@ -36,18 +36,18 @@ public class Categorie {
 
     /**
      * add articleCategory in categorieArticle list
-     * @param articleCategorie
+     * @param articleCategory
      */
-    public void addCategorieArticle(ArticleCategorie articleCategorie){
-        this.categorieArticles.add(articleCategorie);
+    public void addCategoryArticle(ArticleCategory articleCategory){
+        this.categoryArticles.add(articleCategory);
     }
 
     /**
      *
      * @return categorieArticle list
      */
-    public List<ArticleCategorie> getCategorieArticles() {
-        return categorieArticles;
+    public List<ArticleCategory> getCategoryArticles() {
+        return categoryArticles;
     }
 
     /**
@@ -59,8 +59,8 @@ public class Categorie {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Categorie categorie = (Categorie) o;
-        return name.equals(categorie.name);
+        Category category = (Category) o;
+        return name.equals(category.name);
     }
 
     @Override

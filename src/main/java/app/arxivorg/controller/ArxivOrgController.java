@@ -5,13 +5,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -75,7 +73,7 @@ public class ArxivOrgController implements Initializable {
      */
     private void showAllCategories(){
         Set<String> categories = new HashSet<>();
-        for(Categorie var : managerArticle.getCategories()){
+        for(Category var : managerArticle.getCategories()){
             categories.add(var.getName());
         }
         categoryComboBox.getItems().addAll(categories);
@@ -110,9 +108,9 @@ public class ArxivOrgController implements Initializable {
     @FXML
     public void displaySelectedByCategory(ActionEvent actionEvent) {
         int index = categoryComboBox.getSelectionModel().getSelectedIndex();
-        List<Categorie> tmp = new ArrayList<>(managerArticle.getCategories());
-        Categorie categorie = tmp.get(index);
-        this.setArticles(managerArticle.getArticlesByCategory(categorie));
+        List<Category> tmp = new ArrayList<>(managerArticle.getCategories());
+        Category category = tmp.get(index);
+        this.setArticles(managerArticle.getArticlesByCategory(category));
 
         listView.getItems().clear();
         for(Article article: getArticles()){

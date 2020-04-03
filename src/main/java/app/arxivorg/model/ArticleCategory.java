@@ -2,14 +2,14 @@ package app.arxivorg.model;
 
 import java.util.Objects;
 
-public class ArticleCategorie {
+public class ArticleCategory {
 
     private Article article;
-    private Categorie categorie;
+    private Category category;
 
-    public ArticleCategorie(Article article, Categorie categorie) {
+    public ArticleCategory(Article article, Category category) {
         this.article = article;
-        this.categorie = categorie;
+        this.category = category;
     }
 
     /**
@@ -32,16 +32,16 @@ public class ArticleCategorie {
      *
      * @return category
      */
-    public Categorie getCategorie() {
-        return categorie;
+    public Category getCategory() {
+        return category;
     }
 
     /**
      * set category
-     * @param categorie
+     * @param category
      */
-    public void setCategorie(Categorie categorie) {
-        this.categorie = categorie;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
 
@@ -54,14 +54,14 @@ public class ArticleCategorie {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ArticleCategorie that = (ArticleCategorie) o;
+        ArticleCategory that = (ArticleCategory) o;
         return article.equals(that.article) &&
-                categorie.equals(that.categorie);
+                category.equals(that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(article, categorie);
+        return Objects.hash(article, category);
     }
 
 }
