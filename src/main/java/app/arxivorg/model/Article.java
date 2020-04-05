@@ -1,9 +1,8 @@
 package app.arxivorg.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import javafx.scene.control.DatePicker;
+
+import java.util.*;
 
 /**
  * Class Article
@@ -13,18 +12,18 @@ public class Article {
     private String id;
     private String title;
     private String summary;
-    private String updated;
+    private Date updated;
     private Date published;
-    private List<ArticleCategorie> articleCategories;
-    private List<ArticleAuthor> articleAuthors;
+    private List<String> categories;
+    private List<String> authors;
 
 
     /**
      * Default Constructor
      */
     public Article(){
-        this.articleAuthors = new ArrayList<>();
-        this.articleCategories = new ArrayList<>();
+        this.authors = new LinkedList<>();
+        this.categories = new LinkedList<>();
     }
 
     /**
@@ -35,14 +34,14 @@ public class Article {
      * @param updated
      * @param published
      */
-    public Article(String id, String title, String summary, String updated, Date published){
+    public Article(String id, String title, String summary, Date updated, Date published){
         this.id = id;
         this.title = title;
         this.summary = summary;
         this.updated = updated;
         this.published = published;
-        this.articleCategories = new ArrayList<>();
-        this.articleAuthors = new ArrayList<>();
+        this.authors = new LinkedList<>();
+        this.categories = new LinkedList<>();
     }
 
     /**
@@ -100,7 +99,7 @@ public class Article {
      *
      * @return article updated
      */
-    public String getUpdated() {
+    public Date getUpdated() {
         return updated;
     }
 
@@ -108,7 +107,7 @@ public class Article {
      * set article update
      * @param updated
      */
-    public void setUpdated(String updated) {
+    public void setUpdated(Date updated) {
         this.updated = updated;
     }
 
@@ -127,33 +126,23 @@ public class Article {
         this.published = published;
     }
 
-    /**
-     * add an ArticleCategorie in articleCategories list
-     * @param articleCategorie
-     */
-    public void addArticleCategorie(ArticleCategorie articleCategorie){
-        this.articleCategories.add(articleCategorie);
+
+    public void setCategories(List<String> categories){
+        this.categories = categories;
     }
 
-
-    /**
-     *
-     * @return articleCategories list
-     */
-    public List<ArticleCategorie> getArticleCategories(){ return this.articleCategories ;}
-
-    public void addArticleAuthor(ArticleAuthor articleAuthor){
-        this.articleAuthors.add(articleAuthor);
+    public List<String> getCategories() {
+        return categories;
     }
 
-
-    /**
-     *
-     * @return articleAuthors list
-     */
-    public List<ArticleAuthor> getArticleAuthors() {
-        return articleAuthors;
+    public List<String> getAuthors(){
+        return this.authors;
     }
+
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
+    }
+
 
     /**
      * verify equality between two article
