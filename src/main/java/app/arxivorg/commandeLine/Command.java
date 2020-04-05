@@ -10,5 +10,5 @@ public interface Command {
      * execute command
      * @param args
      */
-    void execute(Object[] args) throws ParseException;
+    void execute(Object[] args);
 }

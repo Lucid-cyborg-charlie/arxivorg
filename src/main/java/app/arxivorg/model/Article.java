@@ -1,9 +1,6 @@
 package app.arxivorg.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Class Article
@@ -13,40 +10,22 @@ public class Article {
     private String id;
     private String title;
     private String summary;
-    private String updated;
+    private Date updated;
     private Date published;
-    private List<ArticleCategorie> articleCategories;
-    private List<ArticleAuthor> articleAuthors;
+    private List<String> categories;
+    private List<String> authors;
 
 
     /**
      * Default Constructor
      */
     public Article(){
-        this.articleAuthors = new ArrayList<>();
-        this.articleCategories = new ArrayList<>();
+        this.authors = new LinkedList<>();
+        this.categories = new LinkedList<>();
     }
 
-    /**
-     * Constructor with parameters
-     * @param id
-     * @param title
-     * @param summary
-     * @param updated
-     * @param published
-     */
-    public Article(String id, String title, String summary, String updated, Date published){
-        this.id = id;
-        this.title = title;
-        this.summary = summary;
-        this.updated = updated;
-        this.published = published;
-        this.articleCategories = new ArrayList<>();
-        this.articleAuthors = new ArrayList<>();
-    }
 
     /**
-     *
      * @return article id
      */
     public String getId() {
@@ -61,9 +40,7 @@ public class Article {
     public void setId(String id){this.id = id; }
 
 
-
     /**
-     *
      * @return article title
      */
     public String getTitle() {
@@ -80,7 +57,6 @@ public class Article {
     }
 
     /**
-     *
      * @return article summary
      */
     public String getSummary() {
@@ -97,10 +73,9 @@ public class Article {
     }
 
     /**
-     *
      * @return article updated
      */
-    public String getUpdated() {
+    public Date getUpdated() {
         return updated;
     }
 
@@ -108,19 +83,18 @@ public class Article {
      * set article update
      * @param updated
      */
-    public void setUpdated(String updated) {
+    public void setUpdated(Date updated) {
         this.updated = updated;
     }
 
     /**
-     *
      * @return article date of publication
      */
     public Date getPublished() {
         return published;
     }
+
     /**
-     * set article publication
      * @param published
      */
     public void setPublished(Date published) {
@@ -128,32 +102,33 @@ public class Article {
     }
 
     /**
-     * add an ArticleCategorie in articleCategories list
-     * @param articleCategorie
+     * @param categories
      */
-    public void addArticleCategorie(ArticleCategorie articleCategorie){
-        this.articleCategories.add(articleCategorie);
+    public void setCategories(List<String> categories){
+        this.categories = categories;
     }
-
 
     /**
-     *
-     * @return articleCategories list
+     * @return
      */
-    public List<ArticleCategorie> getArticleCategories(){ return this.articleCategories ;}
-
-    public void addArticleAuthor(ArticleAuthor articleAuthor){
-        this.articleAuthors.add(articleAuthor);
+    public List<String> getCategories() {
+        return categories;
     }
-
 
     /**
-     *
-     * @return articleAuthors list
+     * @return
      */
-    public List<ArticleAuthor> getArticleAuthors() {
-        return articleAuthors;
+    public List<String> getAuthors(){
+        return this.authors;
     }
+
+    /**
+     * @param authors
+     */
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
+    }
+
 
     /**
      * verify equality between two article
@@ -168,13 +143,13 @@ public class Article {
         return id.equals(article.id);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
 
     /**
-     *
      * @return description of article
      */
     @Override
