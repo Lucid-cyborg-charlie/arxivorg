@@ -24,10 +24,10 @@ public class ManagerArticle {
 
     private List<Article> articles;
     private Set<String> categories;
-    private List<Article> articlesPeriods;
+    private final List<Article> FinalArticles; // help to handle getArticlesByPeriod and getArticlesByCategories
 
     public ManagerArticle(){
-        this.articlesPeriods = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
+        this.FinalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
         this.articles = new LinkedList<>();
         this.categories = new HashSet<>();
         this.articles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
@@ -84,7 +84,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticlesByCategory(String category){
         if(category.equals("Toutes")){
-            return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
+            return FinalArticles;
         }
        return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=cat:" +
                category+"&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
@@ -97,7 +97,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticlesByPeriod(DatePicker period){
         List<Article> articleList = new LinkedList<>();
-        for(Article article : articlesPeriods){
+        for(Article article : FinalArticles){
             if(period.getValue().equals(convertToLocalDateViaInstant(article.getPublished()))) articleList.add(article);
         }
         return articleList;
@@ -127,7 +127,6 @@ public class ManagerArticle {
 
     /**
      * load all categories from a file in resources
-     * @throws IOException if file didn't find
      */
     private void loadCategories(){
         File file = new File("src/main/resources/categories.txt");
@@ -164,7 +163,7 @@ public class ManagerArticle {
                 Path path2= Paths.get(path1.toString().concat("/"+fineName+".pdf"));
                 Files.copy(in, path2, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
-                // handle exception
+                e.printStackTrace();
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -194,16 +193,24 @@ public class ManagerArticle {
     }
 
 
+    /**
+     * @return
+     */
     public List<Article> getArticles(){
         return articles;
     }
 
 
+    /**
+     * @return
+     */
     public Set <String> getCategories() {
         return categories;
     }
 
-
+    /**
+     * @param filterArticles
+     */
     public void setArticles(List<Article> filterArticles) {
         this.articles=filterArticles;
     }

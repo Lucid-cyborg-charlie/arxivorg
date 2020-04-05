@@ -1,7 +1,5 @@
 package app.arxivorg.model;
 
-import javafx.scene.control.DatePicker;
-
 import java.util.*;
 
 /**
@@ -26,26 +24,8 @@ public class Article {
         this.categories = new LinkedList<>();
     }
 
-    /**
-     * Constructor with parameters
-     * @param id
-     * @param title
-     * @param summary
-     * @param updated
-     * @param published
-     */
-    public Article(String id, String title, String summary, Date updated, Date published){
-        this.id = id;
-        this.title = title;
-        this.summary = summary;
-        this.updated = updated;
-        this.published = published;
-        this.authors = new LinkedList<>();
-        this.categories = new LinkedList<>();
-    }
 
     /**
-     *
      * @return article id
      */
     public String getId() {
@@ -60,9 +40,7 @@ public class Article {
     public void setId(String id){this.id = id; }
 
 
-
     /**
-     *
      * @return article title
      */
     public String getTitle() {
@@ -79,7 +57,6 @@ public class Article {
     }
 
     /**
-     *
      * @return article summary
      */
     public String getSummary() {
@@ -96,7 +73,6 @@ public class Article {
     }
 
     /**
-     *
      * @return article updated
      */
     public Date getUpdated() {
@@ -112,33 +88,43 @@ public class Article {
     }
 
     /**
-     *
      * @return article date of publication
      */
     public Date getPublished() {
         return published;
     }
+
     /**
-     * set article publication
      * @param published
      */
     public void setPublished(Date published) {
         this.published = published;
     }
 
-
+    /**
+     * @param categories
+     */
     public void setCategories(List<String> categories){
         this.categories = categories;
     }
 
+    /**
+     * @return
+     */
     public List<String> getCategories() {
         return categories;
     }
 
+    /**
+     * @return
+     */
     public List<String> getAuthors(){
         return this.authors;
     }
 
+    /**
+     * @param authors
+     */
     public void setAuthors(List<String> authors) {
         this.authors = authors;
     }
@@ -157,13 +143,13 @@ public class Article {
         return id.equals(article.id);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
 
     /**
-     *
      * @return description of article
      */
     @Override
