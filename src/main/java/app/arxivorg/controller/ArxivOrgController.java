@@ -5,25 +5,23 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.controlsfx.control.textfield.TextFields;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.*;
 
-
+/**
+ *  ArxivOrg Controller
+ */
 public class ArxivOrgController implements Initializable {
 
+    @FXML
+    private MenuButton preferenceButton;
     @FXML
     public Button oneDownloadButton;
     @FXML
@@ -44,6 +42,7 @@ public class ArxivOrgController implements Initializable {
 
     private  ManagerArticle managerArticle = new ManagerArticle();
     private List<Article> articles = new ArrayList<>(managerArticle.getArticles());
+    private List<Article> favorites=User.getArticlesByID();
     private int currentIndexSelectInListView = -1;
 
 
@@ -81,7 +80,8 @@ public class ArxivOrgController implements Initializable {
      */
     @FXML
     public void displaySelectedArticle(MouseEvent mouseEvent) {
-        oneDownloadButton.setDisable(false);
+        activateButtons();
+        resetCkeckBox();
         try {
             currentIndexSelectInListView = listView.getSelectionModel().getSelectedIndex();
         }catch (Exception e){
@@ -96,6 +96,18 @@ public class ArxivOrgController implements Initializable {
                 + "\nLien: "+article.getId());
     }
 
+    private void resetCkeckBox(){
+        if(favoriteCheckBox.isSelected()){
+            favoriteCheckBox.setSelected(false);
+        }
+    }
+
+    private void activateButtons(){
+        if(oneDownloadButton.isDisable() && favoriteCheckBox.isDisable()){
+            oneDownloadButton.setDisable(false);
+            favoriteCheckBox.setDisable(false);
+        }
+    }
 
     /**
      * display articles by category selected
@@ -153,13 +165,21 @@ public class ArxivOrgController implements Initializable {
     @FXML
     public void AddFavoriteArticle(ActionEvent actionEvent) {
         if(favoriteCheckBox.isSelected()){
-            int index = listView.getSelectionModel().getSelectedIndex();
-            Article article = managerArticle.getArticles().get(index);
-            User user = new User();
-            user.saveArticle(article);
+            User.saveArticle(getSelectedArticle().getId());
+        }else{
+            User.removeArticle(getSelectedArticle().getId());
         }
     }
 
+    /**
+     *
+     * @return article selected in List View
+     */
+    private Article getSelectedArticle() {
+        int index = listView.getSelectionModel().getSelectedIndex();
+        Article article = managerArticle.getArticles().get(index);
+        return article;
+    }
 
     /**
      * download an article
@@ -188,24 +208,63 @@ public class ArxivOrgController implements Initializable {
      * @param articles
      */
     private void displayDownloadProgressBar(List<Article> articles){
+        FXMLLoader loader = makeWindows("/app/arxivorg/view/progress-bar.fxml", "Téléchargement");
+        ProgressBarController progressBarController = loader.getController();
+        progressBarController.startProgress(articles);
+    }
+
+    /**
+     * Displays favorites interface
+     * @param actionEvent
+     */
+    @FXML
+    public void displayFavorites(ActionEvent actionEvent){
+       FXMLLoader loader = makeWindows("/app/arxivorg/view/favorites.fxml", "Mes Favoris");
+       FavoritesController favoritesController = loader.getController();
+       favoritesController.displayArticles(favorites);
+    }
+
+    /**
+     * Make windows
+     * @param resources
+     * @param title
+     * @return FXMLLoader
+     */
+    private FXMLLoader makeWindows(String resources, String title){
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/app/arxivorg/view/progress-bar.fxml"));
+        loader.setLocation(getClass().getResource(resources));
         AnchorPane panel = null;
         try {
-            //build stage of progressBar
+            //build stage of favorites
             panel = (AnchorPane) loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Téléchargement");
+            stage.setTitle(title);
             stage.setScene(new Scene(panel));
             stage.setResizable(false);
-
-            //get progressBar controller
-            ProgressBarController progressBarController = loader.getController();
-            progressBarController.startProgress(articles);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return loader;
+    }
+
+    /**
+     * Displays statistics
+     * @param actionEvent
+     */
+    @FXML
+    public void displayStatistics(ActionEvent actionEvent){
+
+    }
+
+    /**
+     * Close windows
+     * @param actionEvent
+     */
+    @FXML
+    public void closeWindows(ActionEvent actionEvent){
+        Stage stage = (Stage) preferenceButton.getScene().getWindow();
+        stage.close();
     }
 
 }

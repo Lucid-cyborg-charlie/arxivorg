@@ -38,7 +38,7 @@ public class ManagerArticle {
      * load atom file from arxiv api
      * @param
      */
-    private List<Article> loadDataFromAPI(String req){
+    public static List<Article> loadDataFromAPI(String req){
         List<Article> list = new LinkedList<>();
         try {
             URL url = new URL(req);
