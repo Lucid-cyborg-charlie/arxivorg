@@ -27,8 +27,6 @@ public class ArxivOrgController implements Initializable {
     @FXML
     public Button oneDownloadButton;
     @FXML
-    public BorderPane rootPane;
-    @FXML
     private ListView<String> listView;
     @FXML
     private TextArea infosTextArea;
@@ -78,13 +76,17 @@ public class ArxivOrgController implements Initializable {
 
 
     /**
-     * display article selected on mouseEvent
+     * display selected article on mouseEvent
      * @param mouseEvent
      */
     @FXML
-    public void displaySelected(MouseEvent mouseEvent) {
+    public void displaySelectedArticle(MouseEvent mouseEvent) {
         oneDownloadButton.setDisable(false);
-        currentIndexSelectInListView = listView.getSelectionModel().getSelectedIndex();
+        try {
+            currentIndexSelectInListView = listView.getSelectionModel().getSelectedIndex();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         Article article = managerArticle.getArticles().get(currentIndexSelectInListView);
         infosTextArea.setText("Title : "+article.getTitle()
                 + "\nAuteurs : "+article.getAuthors().toString()
@@ -96,11 +98,11 @@ public class ArxivOrgController implements Initializable {
 
 
     /**
-     * display article by category selected
+     * display articles by category selected
      * @param actionEvent
      */
     @FXML
-    public void displaySelectedByCategory(ActionEvent actionEvent) {
+    public void displayArticlesByCategory(ActionEvent actionEvent) {
        managerArticle.setArticles(managerArticle.getArticlesByCategory(categoryComboBox.getSelectionModel().getSelectedItem()));
        listView.getItems().clear();
        displayArticles(managerArticle.getArticles());
@@ -109,11 +111,11 @@ public class ArxivOrgController implements Initializable {
 
 
     /**
-     * display article by author
+     * display articles by author
      * @param actionEvent
      */
     @FXML
-    public void displaySelectedByAuthors(ActionEvent actionEvent) {
+    public void displayArticlesByAuthor(ActionEvent actionEvent) {
         managerArticle.setArticles(managerArticle.getArticlesByAuthor(authorField.getText()));
         listView.getItems().clear();
         displayArticles(managerArticle.getArticles());
@@ -121,11 +123,11 @@ public class ArxivOrgController implements Initializable {
 
 
     /**
-     * display article by period selected
+     * display articles by period selected
      * @param actionEvent
      */
     @FXML
-    public void displaySelectedByPeriod(ActionEvent actionEvent) {
+    public void displayArticlesByPeriod(ActionEvent actionEvent) {
         managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker));
         listView.getItems().clear();
         displayArticles(managerArticle.getArticles());
@@ -137,7 +139,7 @@ public class ArxivOrgController implements Initializable {
      * @param actionEvent
      */
     @FXML
-    public void findKeyWord(ActionEvent actionEvent) {
+    public void displayArticlesByKeyWord(ActionEvent actionEvent) {
         managerArticle.setArticles(managerArticle.getArticleByKeyWord(keyWordField.getCharacters().toString()));
         listView.getItems().clear();
         displayArticles(managerArticle.getArticles());

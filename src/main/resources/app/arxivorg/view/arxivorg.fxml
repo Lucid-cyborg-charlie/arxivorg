@@ -21,7 +21,7 @@
                         <Insets left="5.0" />
                     </padding>
                 </Label>
-                <ComboBox fx:id="categoryComboBox" onAction="#displaySelectedByCategory" prefHeight="34.0" prefWidth="198.0">
+                <ComboBox fx:id="categoryComboBox" onAction="#displayArticlesByCategory" prefHeight="34.0" prefWidth="198.0">
                     <VBox.margin>
                         <Insets left="3.0" right="3.0" />
                     </VBox.margin>
@@ -34,7 +34,7 @@
                         <Insets left="5.0" />
                     </padding>
                 </Label>
-            <DatePicker fx:id="periodDatePicker" onAction="#displaySelectedByPeriod" prefHeight="25.0" prefWidth="188.0" />
+            <DatePicker fx:id="periodDatePicker" onAction="#displayArticlesByPeriod" prefHeight="25.0" prefWidth="188.0" />
                 <Label prefHeight="38.0" prefWidth="195.0" text="Auteurs">
                     <font>
                         <Font name="Loma Bold" size="17.0" />
@@ -43,7 +43,7 @@
                         <Insets left="5.0" />
                     </padding>
                 </Label>
-                <TextField fx:id="authorField" onAction="#displaySelectedByAuthors" prefHeight="35.0" prefWidth="149.0">
+                <TextField fx:id="authorField" onAction="#displayArticlesByAuthor" prefHeight="35.0" prefWidth="149.0">
                     <VBox.margin>
                         <Insets left="3.0" right="3.0" />
                     </VBox.margin>
@@ -56,7 +56,7 @@
                         <Insets left="5.0" />
                     </padding>
                 </Label>
-                <TextField fx:id="keyWordField" onAction="#findKeyWord" prefHeight="35.0" prefWidth="149.0">
+                <TextField fx:id="keyWordField" onAction="#displayArticlesByKeyWord" prefHeight="35.0" prefWidth="149.0">
                     <VBox.margin>
                         <Insets left="3.0" right="3.0" />
                     </VBox.margin>
@@ -85,7 +85,7 @@
     <center>
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <ListView fx:id="listView" onMouseClicked="#displaySelected" prefHeight="514.0" prefWidth="948.0">
+                <ListView fx:id="listView" onMouseClicked="#displaySelectedArticle" prefHeight="514.0" prefWidth="948.0">
                     <VBox.margin>
                         <Insets right="10.0" />
                     </VBox.margin></ListView>
