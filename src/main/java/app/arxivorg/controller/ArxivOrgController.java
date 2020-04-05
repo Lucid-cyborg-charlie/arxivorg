@@ -18,6 +18,7 @@ import org.controlsfx.control.textfield.TextFields;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -26,15 +27,13 @@ public class ArxivOrgController implements Initializable {
     @FXML
     public Button oneDownloadButton;
     @FXML
-    public BorderPane rootPane;
-    @FXML
     private ListView<String> listView;
     @FXML
     private TextArea infosTextArea;
     @FXML
     private ComboBox<String> categoryComboBox;
     @FXML
-    private ComboBox<String> periodComboBox;
+    private DatePicker periodDatePicker;
     @FXML
     private TextField authorField;
     @FXML
@@ -45,125 +44,93 @@ public class ArxivOrgController implements Initializable {
 
     private  ManagerArticle managerArticle = new ManagerArticle();
     private List<Article> articles = new ArrayList<>(managerArticle.getArticles());
-    private int currentIndexSelectInListView=-1;
+    private int currentIndexSelectInListView = -1;
 
-    public ArxivOrgController() throws IOException {
-    }
 
     // @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
-        TextFields.bindAutoCompletion(keyWordField, keyWord());
-        TextFields.bindAutoCompletion(authorField, managerArticle.getAuthors());
-        showAllArticle(managerArticle.getArticles());
-        showAllCategories();
-        showAllPeriod();
+        displayArticles(managerArticle.getArticles());
+        displayCategories();
     }
+
 
     /**
      * show all articles
      * @param articles
      */
-    private void showAllArticle(List<Article> articles){
+    private void displayArticles(List<Article> articles){
         for(Article article: articles){
-            listView.getItems().add("Titre: "+article.getTitle()+
-                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId());
+            listView.getItems().add("Titre : "+article.getTitle()
+                    +"\nAuteurs : "+article.getAuthors().toString()
+                    +"\nID: "+article.getId()
+                    +"\nCategory(ies) : "+article.getCategories().toString());
         }
     }
 
     /**
      * show all categories
      */
-    private void showAllCategories(){
-        Set<String> categories = new HashSet<>();
-        for(Categorie var : managerArticle.getCategories()){
-            categories.add(var.getName());
-        }
-        categoryComboBox.getItems().addAll(categories);
+    private void displayCategories(){
+        categoryComboBox.getItems().addAll(managerArticle.getCategories());
     }
 
 
     /**
-     * show all period
-     */
-    public void showAllPeriod(){
-     this.periodComboBox.getItems().addAll(managerArticle.getPeriods());
-    }
-
-    /**
-     * display article selected on mouseEvent
+     * display selected article on mouseEvent
      * @param mouseEvent
      */
     @FXML
-    public void displaySelected(MouseEvent mouseEvent) {
+    public void displaySelectedArticle(MouseEvent mouseEvent) {
         oneDownloadButton.setDisable(false);
-        currentIndexSelectInListView = listView.getSelectionModel().getSelectedIndex();
-        Article article = getArticles().get(currentIndexSelectInListView);
-        infosTextArea.setText("Title: "+article.getTitle()+"\nAuteurs: "+article.getArticleAuthors()
-        +"\nDescription: \n"+article.getSummary()+"\nLien: "+article.getId());
+        try {
+            currentIndexSelectInListView = listView.getSelectionModel().getSelectedIndex();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Article article = managerArticle.getArticles().get(currentIndexSelectInListView);
+        infosTextArea.setText("Title : "+article.getTitle()
+                + "\nAuteurs : "+article.getAuthors().toString()
+                + "\nCategory(ies) : "+article.getCategories().toString()
+                + "\nDate : "+article.getPublished().toString()
+                + "\nDescription :\n"+article.getSummary()
+                + "\nLien: "+article.getId());
     }
 
 
     /**
-     * display article by category selected
+     * display articles by category selected
      * @param actionEvent
      */
     @FXML
-    public void displaySelectedByCategory(ActionEvent actionEvent) {
-        int index = categoryComboBox.getSelectionModel().getSelectedIndex();
-        List<Categorie> tmp = new ArrayList<>(managerArticle.getCategories());
-        Categorie categorie = tmp.get(index);
-        this.setArticles(managerArticle.getArticlesByCategory(categorie));
-
-        listView.getItems().clear();
-        for(Article article: getArticles()){
-            listView.getItems().add("Titre: "+article.getTitle()+
-                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId());
-        }
+    public void displayArticlesByCategory(ActionEvent actionEvent) {
+       managerArticle.setArticles(managerArticle.getArticlesByCategory(categoryComboBox.getSelectionModel().getSelectedItem()));
+       listView.getItems().clear();
+       displayArticles(managerArticle.getArticles());
     }
 
 
+
     /**
-     * display article by period selected
+     * display articles by author
      * @param actionEvent
      */
     @FXML
-    public void displaySelectedByPeriod(ActionEvent actionEvent) throws ParseException {
-        int index = periodComboBox.getSelectionModel().getSelectedIndex();
-        this.setArticles(managerArticle.getArticlesByPeriod(managerArticle.getPeriods().get(index)));
-
+    public void displayArticlesByAuthor(ActionEvent actionEvent) {
+        managerArticle.setArticles(managerArticle.getArticlesByAuthor(authorField.getText()));
         listView.getItems().clear();
-        for(Article article: getArticles()){
-            listView.getItems().add("Titre: "+article.getTitle()+
-                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId());
-        }
+        displayArticles(managerArticle.getArticles());
     }
 
 
     /**
-     * display article by author selected
+     * display articles by period selected
      * @param actionEvent
      */
     @FXML
-    public void displaySelectedByAuthors(ActionEvent actionEvent) {
-        setArticles(managerArticle.getArticlesByAuthor(new Author(authorField.getCharacters().toString())));
-
+    public void displayArticlesByPeriod(ActionEvent actionEvent) {
+        managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker));
         listView.getItems().clear();
-        for(Article article: getArticles()){
-            listView.getItems().add("Titre: "+article.getTitle()+
-                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId());
-        }
-    }
-
-
-    /**
-     * @return keywords suggestion
-     */
-    public Set<String> keyWord(){
-        Set<String> words = new HashSet<>();
-        for(Article article : managerArticle.getArticles()){
-            words.addAll(Arrays.asList(article.getTitle().split(" ")));
-        }
-        return words;
+        displayArticles(managerArticle.getArticles());
     }
 
 
@@ -172,15 +139,12 @@ public class ArxivOrgController implements Initializable {
      * @param actionEvent
      */
     @FXML
-    public void findKeyWord(ActionEvent actionEvent) {
-        setArticles(managerArticle.getArticleByKeyWord(keyWordField.getCharacters().toString()));
+    public void displayArticlesByKeyWord(ActionEvent actionEvent) {
+        managerArticle.setArticles(managerArticle.getArticleByKeyWord(keyWordField.getCharacters().toString()));
         listView.getItems().clear();
-        for(Article article: getArticles()){
-            listView.getItems().add("Titre: "+article.getTitle()+
-                    "\nAuteurs: "+article.getArticleAuthors().toString()+"\nID: "+article.getId());
-        }
-
+        displayArticles(managerArticle.getArticles());
     }
+
 
     /**
      * add an article in user favorite list
@@ -196,13 +160,14 @@ public class ArxivOrgController implements Initializable {
         }
     }
 
+
     /**
      * download an article
      * @param actionEvent
      */
     @FXML
     public void downloadOneArticle(ActionEvent actionEvent){
-        Article article = getArticles().get(currentIndexSelectInListView);
+        Article article = managerArticle.getArticles().get(currentIndexSelectInListView);
         List<Article> articles = new ArrayList<Article>();
         articles.add(article);
         displayDownloadProgressBar(articles);
@@ -216,6 +181,7 @@ public class ArxivOrgController implements Initializable {
     public void downloadSeveralArticles(ActionEvent actionEvent) {
         displayDownloadProgressBar(articles);
     }
+
 
     /**
      * Displays the download progress bar
@@ -240,18 +206,6 @@ public class ArxivOrgController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /** set articles list
-     * @param articleList
-     */
-    public void setArticles(List<Article> articleList){
-        this.articles = articleList;
-    }
-
-
-    public List<Article> getArticles(){
-        return this.articles;
     }
 
 }
