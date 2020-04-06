@@ -7,19 +7,17 @@ import com.sun.syndication.feed.synd.SyndPersonImpl;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 import javafx.scene.control.DatePicker;
-
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 
+/**
+ * Class Manager Article
+ */
 public class ManagerArticle {
 
     private List<Article> articles;
@@ -38,7 +36,7 @@ public class ManagerArticle {
      * load atom file from arxiv api
      * @param
      */
-    private List<Article> loadDataFromAPI(String req){
+    public static List<Article> loadDataFromAPI(String req){
         List<Article> list = new LinkedList<>();
         try {
             URL url = new URL(req);
@@ -150,22 +148,19 @@ public class ManagerArticle {
      * @param article
      */
     public static void downloadArticleToPDF(Article article){
-        URL url = null;
         try {
             String link1=article.getId().replace("abs","pdf");
             String link2=link1.replace("http", "https");
-            url = new URL(link2);
-            try (InputStream in = url.openStream()) {
-                Path path1 = FileSystems.getDefault().getPath(System.getProperty("user.home"), "/Documents/", "arxivorg");
-                Files.createDirectories(path1);
-                String[] tab=article.getId().split("/");
-                String fineName=tab[tab.length-1];
-                Path path2= Paths.get(path1.toString().concat("/"+fineName+".pdf"));
-                Files.copy(in, path2, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (MalformedURLException e) {
+            URL url = new URL(link2);
+
+            InputStream in = url.openStream();
+            Path path1 = FileSystems.getDefault().getPath(System.getProperty("user.home"), "/Documents/", "arxivorg");
+            Files.createDirectories(path1);
+            String[] tab=article.getId().split("/");
+            String fineName=tab[tab.length-1];
+            Path path2= Paths.get(path1.toString().concat("/"+fineName+".pdf"));
+            Files.copy(in, path2, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

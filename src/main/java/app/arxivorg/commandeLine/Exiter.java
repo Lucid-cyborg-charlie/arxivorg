@@ -12,4 +12,5 @@ public class Exiter implements Command {
         }
         System.exit(0);
     }
+
 }
