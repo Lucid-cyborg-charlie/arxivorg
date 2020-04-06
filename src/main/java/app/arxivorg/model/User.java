@@ -3,6 +3,10 @@ package app.arxivorg.model;
 import java.io.*;
 import java.util.*;
 
+
+/**
+ * Class User
+ */
 public class User {
 
     /**
