@@ -36,11 +36,9 @@ public class ArxivOrgController extends Controller implements Initializable {
     @FXML
     private CheckBox favoriteCheckBox;
 
-
     private  ManagerArticle managerArticle = new ManagerArticle();
     private List<Article> favorites;
     private int currentIndex = -1;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {

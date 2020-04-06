@@ -24,7 +24,6 @@ class ManagerArticleTest {
 
     @Test
     void getArticlesByCategory(){
-
     }
 
     @Test

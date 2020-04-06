@@ -96,7 +96,8 @@ public class ManagerArticle {
     public List<Article> getArticlesByPeriod(DatePicker period){
         List<Article> articleList = new LinkedList<>();
         for(Article article : FinalArticles){
-            if(period.getValue().equals(convertToLocalDateViaInstant(article.getPublished()))) articleList.add(article);
+            if(period.getValue().equals(convertToLocalDateViaInstant(article.getPublished())))
+                articleList.add(article);
         }
         return articleList;
     }
