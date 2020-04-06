@@ -209,4 +209,5 @@ public class ManagerArticle {
     public void setArticles(List<Article> filterArticles) {
         this.articles=filterArticles;
     }
+
 }
