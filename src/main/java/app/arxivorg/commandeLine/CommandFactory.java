@@ -6,6 +6,7 @@ import java.io.IOException;
  * Class CommandFactory
  */
 public abstract class CommandFactory {
+
     public static Command getCommand(String commandName) throws IOException {
         if(commandName.equalsIgnoreCase("list")){
             return new Lister();
@@ -18,4 +19,5 @@ public abstract class CommandFactory {
             return null;
         }
     }
+
 }

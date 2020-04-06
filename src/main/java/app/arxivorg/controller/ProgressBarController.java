@@ -11,21 +11,30 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
+/**
+ * Class ProgressBarController
+ */
 public class ProgressBarController implements Initializable {
 
     @FXML
     public Label labelFullDownload;
     @FXML
+    public Label pathLabel;
+    @FXML
     private ProgressBar progressBar;
     @FXML
     private Label progressLabel;
 
+    private String path;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        path =  FileSystems.getDefault().getPath(System.getProperty("user.home"), "/Documents/", "arxivorg").toString();
+        pathLabel.setText("Dossier: "+path);
     }
 
     /**
@@ -46,6 +55,7 @@ public class ProgressBarController implements Initializable {
                     Thread.sleep(30);
                 }
                 labelFullDownload.setVisible(true);
+                pathLabel.setVisible(true);
                 return null;
             }
         };
