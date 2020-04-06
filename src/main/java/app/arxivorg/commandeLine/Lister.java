@@ -2,9 +2,6 @@ package app.arxivorg.commandeLine;
 
 import app.arxivorg.model.Article;
 import app.arxivorg.model.ManagerArticle;
-
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 /**
