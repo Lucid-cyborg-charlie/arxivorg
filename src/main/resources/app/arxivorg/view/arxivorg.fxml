@@ -17,20 +17,26 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
     <left>
-        <VBox prefHeight="651.0" prefWidth="191.0" spacing="15.0" BorderPane.alignment="CENTER">
+        <VBox fx:id="leftPanel" prefHeight="651.0" prefWidth="191.0" spacing="15.0" BorderPane.alignment="CENTER">
             <children>
-                <Separator prefHeight="0.0" prefWidth="130.0" />
-            <Label alignment="CENTER" prefHeight="53.0" prefWidth="190.0" text="Filtres">
+            <Label alignment="CENTER" prefHeight="53.0" prefWidth="190.0" text="FILTRES">
                <font>
-                  <Font size="19.0" />
+                  <Font name="Loma" size="24.0" />
                </font>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="eli-filter" iconSize="24" selectionFill="#ae1a1a" />
+               </graphic>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
             </Label>
                 <Label prefHeight="36.0" prefWidth="209.0" text="Catégories">
                     <font>
-                        <Font name="Loma Bold" size="17.0" />
+                        <Font name="Loma" size="17.0" />
                     </font>
                     <VBox.margin>
                         <Insets />
@@ -38,6 +44,9 @@
                     <padding>
                         <Insets left="5.0" />
                     </padding>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="eli-briefcase" />
+               </graphic>
                 </Label>
                 <ComboBox fx:id="categoryComboBox" onAction="#displayArticlesByCategory" prefHeight="34.0" prefWidth="198.0">
                     <VBox.margin>
@@ -46,11 +55,14 @@
                 </ComboBox>
                 <Label prefHeight="39.0" prefWidth="201.0" text="Période">
                     <font>
-                        <Font name="Loma Bold" size="17.0" />
+                        <Font name="Loma" size="17.0" />
                     </font>
                     <padding>
                         <Insets left="5.0" />
                     </padding>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="eli-calendar" />
+               </graphic>
                 </Label>
             <DatePicker fx:id="periodDatePicker" onAction="#displayArticlesByPeriod" prefHeight="34.0" prefWidth="206.0">
                <VBox.margin>
@@ -58,11 +70,14 @@
                </VBox.margin></DatePicker>
                 <Label prefHeight="38.0" prefWidth="195.0" text="Auteurs">
                     <font>
-                        <Font name="Loma Bold" size="17.0" />
+                        <Font name="Loma" size="17.0" />
                     </font>
                     <padding>
                         <Insets left="5.0" />
                     </padding>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="eli-group" />
+               </graphic>
                 </Label>
                 <TextField fx:id="authorField" onAction="#displayArticlesByAuthor" prefHeight="35.0" prefWidth="149.0">
                     <VBox.margin>
@@ -71,29 +86,35 @@
                 </TextField>
                 <Label prefHeight="39.0" prefWidth="199.0" text="Mots-Cléfs">
                     <font>
-                        <Font name="Loma Bold" size="17.0" />
+                        <Font name="Loma" size="17.0" />
                     </font>
                     <padding>
                         <Insets left="5.0" />
                     </padding>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="eli-key" />
+               </graphic>
                 </Label>
                 <TextField fx:id="keyWordField" onAction="#displayArticlesByKeyWord" prefHeight="35.0" prefWidth="149.0">
                     <VBox.margin>
                         <Insets left="3.0" right="3.0" />
                     </VBox.margin>
                 </TextField>
-                <Button fx:id="allDownloadButton" alignment="CENTER" mnemonicParsing="false" onAction="#downloadSeveralArticles" prefHeight="43.0" prefWidth="149.0" text="Tout télécharger">
+                <Button fx:id="allDownloadButton" alignment="CENTER" mnemonicParsing="false" onAction="#downloadSeveralArticles" prefHeight="43.0" prefWidth="166.0" text="Tout télécharger" textFill="WHITE">
                     <VBox.margin>
-                        <Insets left="20.0" top="170.0" />
+                        <Insets left="10.0" top="80.0" />
                     </VBox.margin>
                     <font>
                         <Font name="Loma Bold" size="15.0" />
                     </font>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="eli-download" iconSize="22" />
+               </graphic>
                 </Button>
             </children></VBox>
     </left>
     <center>
-        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+        <VBox fx:id="centerPanel" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
                 <ListView fx:id="listView" onMouseClicked="#displaySelectedArticle" prefHeight="504.0" prefWidth="948.0">
                     <VBox.margin>
@@ -115,7 +136,7 @@
                      </HBox.margin></TextArea>
                         <VBox prefHeight="235.0" prefWidth="335.0">
                             <children>
-                                <CheckBox fx:id="favoriteCheckBox" alignment="CENTER" disable="true" mnemonicParsing="false" onAction="#AddFavoriteArticle" prefHeight="43.0" prefWidth="154.0" text="Mes Favoris">
+                                <CheckBox fx:id="favoriteCheckBox" disable="true" mnemonicParsing="false" onAction="#AddFavoriteArticle" prefHeight="43.0" prefWidth="154.0" text="Favoris">
                                     <VBox.margin>
                                         <Insets bottom="10.0" left="40.0" />
                                     </VBox.margin>
@@ -128,13 +149,16 @@
                                         <Insets right="10.0" />
                                     </VBox.margin>
                                 </Separator>
-                                <Button fx:id="oneDownloadButton" disable="true" mnemonicParsing="false" onAction="#downloadOneArticle" prefHeight="41.0" prefWidth="157.0" text="Télécharger">
+                                <Button fx:id="oneDownloadButton" disable="true" mnemonicParsing="false" onAction="#downloadOneArticle" prefHeight="41.0" prefWidth="157.0" text="Télécharger" textFill="WHITE">
                                     <font>
                                         <Font name="Loma Bold" size="15.0" />
                                     </font>
                                     <VBox.margin>
                                         <Insets left="40.0" top="10.0" />
                                     </VBox.margin>
+                           <graphic>
+                              <FontIcon iconColor="WHITE" iconLiteral="eli-download" iconSize="22" />
+                           </graphic>
                                 </Button>
                             </children>
                         </VBox>
@@ -144,19 +168,28 @@
         </VBox>
     </center>
    <top>
-      <Pane prefHeight="62.0" prefWidth="1149.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="topPanel" prefHeight="62.0" prefWidth="1149.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" layoutY="-12.0" prefHeight="74.0" prefWidth="194.0" text="Arxivorg">
+            <Label fx:id="labelApp" alignment="CENTER" layoutX="478.0" layoutY="-6.0" prefHeight="74.0" prefWidth="194.0" text="Arxivorg">
                <font>
                   <Font name="Loma Bold" size="44.0" />
                </font>
             </Label>
             <MenuButton fx:id="preferenceButton" layoutX="977.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="161.0" text="Préférences">
               <items>
-                <MenuItem fx:id="favoritesMenu" mnemonicParsing="false" onAction="#displayFavorites" text="Mes favoris" />
-                <MenuItem fx:id="statistiqueMenu" mnemonicParsing="false" onAction="#displayStatistics" text="Statistique" />
+                <MenuItem fx:id="favoritesMenu" mnemonicParsing="false" onAction="#displayFavorites" text="Mes favoris">
+                     <graphic>
+                        <FontIcon iconLiteral="eli-star-empty" />
+                     </graphic></MenuItem>
+                <MenuItem fx:id="statistiqueMenu" mnemonicParsing="false" onAction="#displayStatistics" text="Statistique">
+                     <graphic>
+                        <FontIcon iconLiteral="eli-signal" />
+                     </graphic></MenuItem>
                   <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#closeWindows" text="Quitter" />
               </items>
+               <graphic>
+                  <FontIcon iconLiteral="eli-th-large" />
+               </graphic>
             </MenuButton>
          </children>
       </Pane>

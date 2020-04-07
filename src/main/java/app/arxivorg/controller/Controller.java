@@ -41,7 +41,9 @@ public abstract class Controller {
             panel = (AnchorPane) loader.load();
             Stage stage = new Stage();
             stage.setTitle(title);
-            stage.setScene(new Scene(panel));
+            Scene scene = new Scene(panel);
+            scene.getStylesheets().add(getClass().getResource("/app/arxivorg/css/favoris.css").toString());
+            stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
