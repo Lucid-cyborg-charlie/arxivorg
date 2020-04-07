@@ -14,7 +14,7 @@ public class ArxivOrg extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/app/arxivorg/view/arxivorg.fxml"));
         primaryStage.setTitle("arxivorg");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="525.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArticleByAuthor">
+   <children>
+      <BarChart fx:id="barChart" layoutX="3.0" layoutY="3.0" prefHeight="519.0" prefWidth="780.0" title="Auteurs les plus productifs">
+        <xAxis>
+          <CategoryAxis label="Auteurs" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="Articles" side="LEFT" />
+        </yAxis>
+      </BarChart>
+   </children>
+</AnchorPane>

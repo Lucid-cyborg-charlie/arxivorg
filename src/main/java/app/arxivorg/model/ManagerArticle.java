@@ -1,5 +1,6 @@
 package app.arxivorg.model;
 
+
 import com.sun.syndication.feed.synd.SyndCategoryImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -96,7 +97,7 @@ public class ManagerArticle {
     public List<Article> getArticlesByPeriod(DatePicker period){
         List<Article> articleList = new LinkedList<>();
         for(Article article : FinalArticles){
-            if(period.getValue().equals(convertToLocalDateViaInstant(article.getPublished()))) articleList.add(article);
+            if(period(period.getValue(), convertToLocalDateViaInstant(article.getPublished()))) articleList.add(article);
         }
         return articleList;
     }
@@ -188,16 +189,13 @@ public class ManagerArticle {
     }
 
 
-    /**
-     * @return
-     */
     public List<Article> getArticles(){
         return articles;
     }
 
 
     /**
-     * @return
+     * @return  api categories
      */
     public Set <String> getCategories() {
         return categories;
@@ -208,5 +206,83 @@ public class ManagerArticle {
      */
     public void setArticles(List<Article> filterArticles) {
         this.articles=filterArticles;
+    }
+
+
+    private boolean period(LocalDate date, LocalDate param){
+        LocalDate today = LocalDate.now();
+        return param.getMonth() == date.getMonth() && param.getYear() == date.getYear()
+                && today.getDayOfMonth() >= param.getDayOfMonth() && date.getDayOfMonth() <= param.getDayOfMonth();
+    }
+
+
+
+    /**
+     * @return articles dates
+     */
+    private Set<String> extractDate(){
+        Set<String> list = new HashSet<>();
+        for(Article article : FinalArticles){
+            LocalDate localDate = convertToLocalDateViaInstant(article.getPublished());
+            list.add(localDate.getDayOfMonth()+"/"+localDate.getMonth()+"/"+localDate.getYear());
+        } return list;
+    }
+
+    /**
+     * @return articles authors
+     */
+    private Set<String> extractAuthor(){
+        Set<String> list = new HashSet<>();
+        for(Article article : FinalArticles){
+            list.addAll(article.getAuthors());
+        } return list;
+    }
+
+
+    /**
+     * @return the number of article by category
+     */
+    public Map<String, Integer> statArticlesByCategories(){
+        Map<String, Integer> map = new HashMap<>();
+        for(String category : categories){
+            int cmp = 0;
+            for(Article article : FinalArticles){
+                if(article.getCategories().contains(category)) cmp++;
+            } if(cmp > 0) map.put(category, cmp);
+        }
+        return map;
+    }
+
+
+    /**
+     * @return the number of article by day
+     */
+    public Map<String, Integer> statArticleByDay(){
+        Map<String, Integer> map = new HashMap<>();
+        for(String date : extractDate()){
+            int cmp = 0;
+            for(Article article: FinalArticles){
+               LocalDate localDate = convertToLocalDateViaInstant(article.getPublished());
+               if(date.equals(localDate.getDayOfMonth()+"/"+localDate.getMonth()+"/"+localDate.getYear())) cmp++;
+            }
+           map.put(date, cmp);
+        }
+        return map;
+    }
+
+
+    /**
+     * @return the number of article by author
+     */
+    public Map<String, Integer> statArticleByAuthor(){
+        Map<String, Integer> map = new HashMap<>();
+        for(String author : extractAuthor()){
+            int cmp = 0;
+            for(Article article: FinalArticles){
+                if(article.getAuthors().contains(author)) cmp++;
+            }
+            if(cmp >= 2)map.put(author, cmp);  // only authors with more than one article are selected
+        }
+        return map;
     }
 }
