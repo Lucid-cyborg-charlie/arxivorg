@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class ArticleByDay implements Initializable {
+public class ArticleByDayController implements Initializable {
     private ManagerArticle managerArticle = new ManagerArticle();
     @FXML
     private BarChart<?, ?> barChart;

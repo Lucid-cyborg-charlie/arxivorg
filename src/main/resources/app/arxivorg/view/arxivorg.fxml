@@ -18,10 +18,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
     <left>
@@ -176,7 +172,7 @@
                   <Font name="Loma Bold" size="44.0" />
                </font>
             </Label>
-            <MenuButton fx:id="preferenceButton" layoutX="977.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="161.0" text="Préférences">
+            <MenuButton fx:id="preferenceButton" layoutX="977.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="161.0" text="Options">
               <items>
                 <MenuItem fx:id="favoritesMenu" mnemonicParsing="false" onAction="#displayFavorites" text="Mes favoris">
                      <graphic>
@@ -186,8 +182,7 @@
                      <graphic>
                         <FontIcon iconLiteral="eli-signal" />
                      </graphic></MenuItem>
-                <MenuItem fx:id="favoritesMenu" mnemonicParsing="false" onAction="#displayFavorites" text="Mes favoris" />
-                <MenuItem fx:id="statistiqueMenu" mnemonicParsing="false" onAction="#statArticleByCategory" text="Article par catégorie" />
+                <MenuItem mnemonicParsing="false" onAction="#statArticleByCategory" text="Article par catégorie" />
                   <MenuItem mnemonicParsing="false" onAction="#statArticleByDay" text="Articles par jour" />
                   <MenuItem mnemonicParsing="false" onAction="#statArticleByAuthor" text="Auteur productif" />
                   <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#closeWindows" text="Quitter" />

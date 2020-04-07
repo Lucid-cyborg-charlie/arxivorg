@@ -240,15 +240,22 @@ public class ArxivOrgController extends Controller implements Initializable {
         stage.close();
     }
 
+    @FXML
     public void statArticleByCategory(ActionEvent actionEvent) {
         makeWindows("/app/arxivorg/view/articleByCategory.fxml", "statistique");
     }
 
+    @FXML
     public void statArticleByDay(ActionEvent actionEvent) {
         makeWindows("/app/arxivorg/view/articleByDay.fxml", "statistique");
     }
 
+    @FXML
     public void statArticleByAuthor(ActionEvent actionEvent) {
         makeWindows("/app/arxivorg/view/articleByAuthor.fxml", "statistique");
+    }
+
+    @FXML
+    public void displayStatistics(ActionEvent actionEvent) {
     }
 }
