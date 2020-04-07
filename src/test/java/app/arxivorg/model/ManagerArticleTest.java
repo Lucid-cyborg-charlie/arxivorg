@@ -1,19 +1,14 @@
 package app.arxivorg.model;
 
-import javafx.scene.control.DatePicker;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManagerArticleTest {
 
-    ManagerArticle managerarticle = new ManagerArticle();
+    private ManagerArticle managerArticle = new ManagerArticle();
 
     @Test
     void readFileAtom() {
@@ -59,31 +54,11 @@ class ManagerArticleTest {
         System.out.println(datepiker.getValue());
     }
 
-
     @Test
     void getArticlesByKeyWord() {
-        List<Article> articles = managerarticle.getArticleByKeyWord("artificial");
-        boolean is0k = true;
-        for (Article article : articles) {
-            if (!article.getSummary().contains("artificial")) {
-                is0k = false;
-                return;
-            }
-        }
-        assertEquals(true, is0k);
     }
-
 
     @Test
     void getArticlesByAuthor() {
-        List<Article> articles = managerarticle.getArticlesByCategory("Jose Font");
-        boolean is0k = true;
-        for (Article article : articles) {
-            if (!article.getAuthors().contains("Jose Font")) {
-                is0k = false;
-                return;
-            }
-        }
-        assertEquals(true, is0k);
     }
 }

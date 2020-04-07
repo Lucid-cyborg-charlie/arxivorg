@@ -18,6 +18,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
     <left>
@@ -55,7 +59,7 @@
                 </ComboBox>
                 <Label prefHeight="39.0" prefWidth="201.0" text="Période">
                     <font>
-                        <Font name="Loma" size="17.0" />
+                        <Font name="Loma Bold" size="17.0" />
                     </font>
                     <padding>
                         <Insets left="5.0" />
@@ -107,9 +111,6 @@
                     <font>
                         <Font name="Loma Bold" size="15.0" />
                     </font>
-               <graphic>
-                  <FontIcon iconColor="WHITE" iconLiteral="eli-download" iconSize="22" />
-               </graphic>
                 </Button>
             </children></VBox>
     </left>
@@ -185,6 +186,10 @@
                      <graphic>
                         <FontIcon iconLiteral="eli-signal" />
                      </graphic></MenuItem>
+                <MenuItem fx:id="favoritesMenu" mnemonicParsing="false" onAction="#displayFavorites" text="Mes favoris" />
+                <MenuItem fx:id="statistiqueMenu" mnemonicParsing="false" onAction="#statArticleByCategory" text="Article par catégorie" />
+                  <MenuItem mnemonicParsing="false" onAction="#statArticleByDay" text="Articles par jour" />
+                  <MenuItem mnemonicParsing="false" onAction="#statArticleByAuthor" text="Auteur productif" />
                   <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#closeWindows" text="Quitter" />
               </items>
                <graphic>

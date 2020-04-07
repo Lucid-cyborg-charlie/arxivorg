@@ -221,21 +221,13 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayFavorites(ActionEvent actionEvent){
-       FXMLLoader loader = makeWindows("/app/arxivorg/view/favorites.fxml", "Mes Favoris");
+       FXMLLoader loader = makeWindows("/app/arxivorg/view/favorites.fxml", "Mes Favories");
        FavoritesController favoritesController = loader.getController();
        favoritesController.setFavorites(favorites);
        favoritesController.displayArticles();
     }
 
 
-    /**
-     * Displays statistics
-     * @param actionEvent
-     */
-    @FXML
-    public void displayStatistics(ActionEvent actionEvent){
-
-    }
 
 
     /**
@@ -248,4 +240,15 @@ public class ArxivOrgController extends Controller implements Initializable {
         stage.close();
     }
 
+    public void statArticleByCategory(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByCategory.fxml", "statistique");
+    }
+
+    public void statArticleByDay(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByDay.fxml", "statistique");
+    }
+
+    public void statArticleByAuthor(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByAuthor.fxml", "statistique");
+    }
 }
