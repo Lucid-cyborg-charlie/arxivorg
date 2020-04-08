@@ -21,3 +21,17 @@
 #allDownloadButton{
     -fx-background-color: #1398AB;
 }
+
+#listView{
+    -fx-alignment: justify;
+    -fx-font-family: Arial, Helvetica, sans-serif;
+    -fx-font-size: 14px;
+}
+
+#infosText{
+    -fx-background-color: #fff;
+    -fx-alignment: justify;
+    -fx-padding: 20px;
+    -fx-font-family: Arial, Helvetica, sans-serif;
+    -fx-font-size: 14px;
+}

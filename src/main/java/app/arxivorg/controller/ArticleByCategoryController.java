@@ -10,20 +10,16 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class ArticleByCategoryController implements Initializable {
+public class ArticleByCategoryController extends StatisticController implements Initializable {
+
     private ManagerArticle managerArticle = new ManagerArticle();
     @FXML
-    private BarChart<?, ?> barChart;
+    private BarChart<String, Integer> barChart;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /*XYChart.Series series = new XYChart.Series<>();
-        Map<String, Integer> map = managerArticle.statArticlesByCategories();
-        for(Map.Entry<String, Integer> entry : map.entrySet()){
-            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-        }
+        XYChart.Series<String, Integer> series = getSeries(managerArticle.statArticlesByCategories());
         series.setName("Categories");
-
-        barChart.getData().addAll(series);*/
+        barChart.getData().addAll(series);
     }
 }

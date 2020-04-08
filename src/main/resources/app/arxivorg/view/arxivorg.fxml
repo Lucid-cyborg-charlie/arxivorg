@@ -9,17 +9,19 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0"
+            xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
     <left>
         <VBox fx:id="leftPanel" prefHeight="651.0" prefWidth="191.0" spacing="15.0" BorderPane.alignment="CENTER">
             <children>
@@ -124,13 +126,11 @@
                 </Separator>
                 <HBox prefHeight="247.0" prefWidth="958.0">
                     <children>
-                        <TextArea fx:id="infosTextArea" editable="false" prefHeight="237.0" prefWidth="861.0">
-                     <font>
-                        <Font name="Loma" size="15.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets top="10.0" />
-                     </HBox.margin></TextArea>
+                  <ScrollPane prefHeight="247.0" prefWidth="858.0">
+                     <content>
+                        <TextFlow fx:id="infosText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="247.0" prefWidth="738.0" textAlignment="JUSTIFY" />
+                     </content>
+                  </ScrollPane>
                         <VBox prefHeight="235.0" prefWidth="335.0">
                             <children>
                                 <CheckBox fx:id="favoriteCheckBox" disable="true" mnemonicParsing="false" onAction="#AddFavoriteArticle" prefHeight="43.0" prefWidth="154.0" text="Favoris">
