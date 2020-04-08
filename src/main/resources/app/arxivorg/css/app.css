@@ -10,8 +10,12 @@
     -fx-background-color: #03040a;
 }
 
-#leftPanel .label{
+#labelCategory, #labelPeriod, #labelAuthors, #labelKey, #labelFilter{
     -fx-text-fill: #fff;
+}
+
+#periodDatePicker {
+    -fx-text-fill: #03040a;
 }
 
 #oneDownloadButton{

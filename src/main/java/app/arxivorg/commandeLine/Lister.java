@@ -2,7 +2,10 @@ package app.arxivorg.commandeLine;
 
 import app.arxivorg.model.Article;
 import app.arxivorg.model.ManagerArticle;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class Lister
@@ -10,11 +13,12 @@ import java.util.List;
 public class Lister implements Command {
 
     private ManagerArticle managerArticle;
-    private List<Article> filterArticles;
+    private Set<Article> filterArticles;
 
     public Lister(){
         this.managerArticle = new ManagerArticle();
-        this.filterArticles = managerArticle.getArticles();
+        this.filterArticles = new HashSet<>();
+        filterArticles .addAll(managerArticle.getArticles());
     }
 
     @Override
@@ -25,20 +29,16 @@ public class Lister implements Command {
             try {
                 for(int i=0; i<args.length;i=i+2){
                    /* if(args[i].toString().equals("-p")){
-                        filterArticles=managerArticle.getArticlesByPeriod(args[i+1].toString());
-                        managerArticle.setArticles(filterArticles);
+                        filterArticles.addAll(managerArticle.getArticlesByPeriod(args[i+1].toString()));
                     }*/
                      if(args[i].toString().equals("-c")){
-                        filterArticles=managerArticle.getArticlesByCategory(args[i+1].toString());
-                        managerArticle.setArticles(filterArticles);
+                        filterArticles.addAll(managerArticle.getArticlesByCategory(args[i+1].toString()));
                     }
                     else if(args[i].toString().equals("-a")){
-                        filterArticles=managerArticle.getArticlesByAuthor(args[i+1].toString());
-                        managerArticle.setArticles(filterArticles);
+                        filterArticles.addAll(managerArticle.getArticlesByAuthor(args[i+1].toString()));
                     }
                     else if(args[i].toString().equals("-w")){
-                        filterArticles=managerArticle.getArticleByKeyWord(args[i+1].toString());
-                        managerArticle.setArticles(filterArticles);
+                        filterArticles.addAll(managerArticle.getArticleByKeyWord(args[i+1].toString()));
                     }else {
                         System.out.println("Invalid option. Try again or use command help.");
                         return;
@@ -51,13 +51,19 @@ public class Lister implements Command {
         }
     }
 
-    private void printArticles(List<Article> articles){
+    /**
+     * Print articles
+     * @param articles
+     */
+    private void printArticles(Set<Article> articles){
         if(articles.isEmpty()){
             System.out.println("No item corresponds to your request.");
         }else {
             for(Article article: articles){
                 System.out.println("Titre: "+article.getTitle()+
-                        "\nAuteurs: "+article.getAuthors().toString()+"\nID: "+article.getId());
+                        "\nAuteurs: "+article.getAuthors().toString()+
+                        "\nCatégories: "+article.getCategories().toString()+
+                        "\nID: "+article.getId());
             }
         }
     }

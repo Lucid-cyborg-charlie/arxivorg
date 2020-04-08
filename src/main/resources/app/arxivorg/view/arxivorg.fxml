@@ -21,11 +21,11 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0"
-            xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
     <left>
         <VBox fx:id="leftPanel" prefHeight="651.0" prefWidth="191.0" spacing="15.0" BorderPane.alignment="CENTER">
             <children>
-            <Label alignment="CENTER" prefHeight="53.0" prefWidth="190.0" text="FILTRES">
+            <Label fx:id="labelFilter" alignment="CENTER" prefHeight="53.0" prefWidth="190.0" text="FILTRES">
                <font>
                   <Font name="Loma" size="24.0" />
                </font>
@@ -36,7 +36,7 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </Label>
-                <Label prefHeight="36.0" prefWidth="209.0" text="Catégories">
+                <Label fx:id="labelCategory" prefHeight="36.0" prefWidth="209.0" text="Catégories">
                     <font>
                         <Font name="Loma" size="17.0" />
                     </font>
@@ -55,7 +55,7 @@
                         <Insets left="3.0" right="3.0" />
                     </VBox.margin>
                 </ComboBox>
-                <Label prefHeight="39.0" prefWidth="201.0" text="Période">
+                <Label fx:id="labelPeriod" prefHeight="39.0" prefWidth="201.0" text="Période">
                     <font>
                         <Font name="Loma Bold" size="17.0" />
                     </font>
@@ -70,7 +70,7 @@
                <VBox.margin>
                   <Insets left="3.0" right="3.0" />
                </VBox.margin></DatePicker>
-                <Label prefHeight="38.0" prefWidth="195.0" text="Auteurs">
+                <Label fx:id="labelAuthors" prefHeight="38.0" prefWidth="195.0" text="Auteurs">
                     <font>
                         <Font name="Loma" size="17.0" />
                     </font>
@@ -86,7 +86,7 @@
                         <Insets left="3.0" right="3.0" />
                     </VBox.margin>
                 </TextField>
-                <Label prefHeight="39.0" prefWidth="199.0" text="Mots-Cléfs">
+                <Label fx:id="labelKey" prefHeight="39.0" prefWidth="199.0" text="Mots-Cléfs">
                     <font>
                         <Font name="Loma" size="17.0" />
                     </font>
