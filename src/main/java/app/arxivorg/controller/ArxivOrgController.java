@@ -189,7 +189,7 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayArticlesByPeriod(ActionEvent actionEvent) {
-        managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker));
+        managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker.getValue()));
         listView.getItems().clear();
         displayArticles(managerArticle.getArticles());
     }
@@ -288,5 +288,9 @@ public class ArxivOrgController extends Controller implements Initializable {
 
     @FXML
     public void displayStatistics(ActionEvent actionEvent) {
+    }
+
+    public void statArticleByExpression(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByExpression.fxml", "statistique");
     }
 }

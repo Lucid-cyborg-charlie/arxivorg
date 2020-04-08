@@ -9,6 +9,7 @@ import com.sun.syndication.io.XmlReader;
 import javafx.scene.control.DatePicker;
 import java.io.*;
 import java.net.URL;
+import java.nio.channels.InterruptedByTimeoutException;
 import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -25,10 +26,10 @@ public class ManagerArticle {
     private final List<Article> FinalArticles; // help to handle getArticlesByPeriod and getArticlesByCategories
 
     public ManagerArticle(){
-        this.FinalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
+        this.FinalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
         this.articles = new LinkedList<Article>();
         this.categories = new HashSet<String>();
-        this.articles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
+        this.articles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
         loadCategories();
     }
 
@@ -85,7 +86,7 @@ public class ManagerArticle {
             return FinalArticles;
         }
        return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=cat:" +
-               category+"&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
+               category+"&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
     }
 
 
@@ -93,10 +94,10 @@ public class ManagerArticle {
      * @param period
      * @return articles by periode
      */
-    public List<Article> getArticlesByPeriod(DatePicker period){
+    public List<Article> getArticlesByPeriod(LocalDate period){
         List<Article> articleList = new LinkedList<>();
         for(Article article : FinalArticles){
-            if(period(period.getValue(), convertToLocalDateViaInstant(article.getPublished()))) articleList.add(article);
+            if(period(period, convertToLocalDateViaInstant(article.getPublished()))) articleList.add(article);
         }
         return articleList;
     }
@@ -108,7 +109,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticlesByAuthor(String author){
         return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=au:" +
-                author+"&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
+                author+"&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
     }
 
 
@@ -118,7 +119,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticleByKeyWord(String word){
         return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:" +
-                word+"&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
+                word+"&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
     }
 
 
@@ -211,6 +212,12 @@ public class ManagerArticle {
     }
 
 
+    /**
+     *
+     * @param date
+     * @param param
+     * @return
+     */
     private boolean period(LocalDate date, LocalDate param){
         LocalDate today = LocalDate.now();
         return param.getMonth() == date.getMonth() && param.getYear() == date.getYear()
@@ -284,6 +291,25 @@ public class ManagerArticle {
                 if(article.getAuthors().contains(author)) cmp++;
             }
             if(cmp >= 2)map.put(author, cmp);  // only authors with more than one article are selected
+        }
+        return map;
+    }
+
+
+    /**
+     *
+     * @param expressions
+     * @return
+     */
+    public Map<String, Integer> statArticleByExpression(String expressions){
+        String[] list = expressions.split(",");
+        Map<String, Integer> map = new HashMap<>();
+        for(String expression : list){
+            int cmp = 0;
+            for(Article article : FinalArticles){
+                if(article.getTitle().contains(expression) || article.getSummary().contains(expression)) cmp++;
+            }
+            if(cmp > 0) map.put(expression, cmp);
         }
         return map;
     }
