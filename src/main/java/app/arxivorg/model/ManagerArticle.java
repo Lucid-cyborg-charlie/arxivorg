@@ -26,8 +26,8 @@ public class ManagerArticle {
 
     public ManagerArticle(){
         this.FinalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
-        this.articles = new LinkedList<>();
-        this.categories = new HashSet<>();
+        this.articles = new LinkedList<Article>();
+        this.categories = new HashSet<String>();
         this.articles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending");
         loadCategories();
     }
@@ -37,7 +37,7 @@ public class ManagerArticle {
      * @param
      */
     public static List<Article> loadDataFromAPI(String req){
-        List<Article> list = new LinkedList<>();
+        List<Article> list = new LinkedList<Article>();
         try {
             URL url = new URL(req);
             SyndFeedInput input = new SyndFeedInput();

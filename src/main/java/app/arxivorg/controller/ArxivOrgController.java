@@ -7,12 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 
 /**
@@ -21,13 +21,13 @@ import org.kordamp.ikonli.javafx.FontIcon;
 public class ArxivOrgController extends Controller implements Initializable {
 
     @FXML
+    public TextFlow infosText;
+    @FXML
     private MenuButton preferenceButton;
     @FXML
     public Button oneDownloadButton;
     @FXML
-    private ListView<Text> listView;
-    @FXML
-    private TextArea infosTextArea;
+    private ListView<TextFlow> listView;
     @FXML
     private ComboBox<String> categoryComboBox;
     @FXML
@@ -57,14 +57,32 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     private void displayArticles(List<Article> articles){
         for(Article article: articles){
-            /*listView.getItems().add("Titre : "+article.getTitle()
-                    +"\nAuteurs : "+article.getAuthors().toString()
-                    +"\nID: "+article.getId()
-                    +"\nCategory(ies) : "+article.getCategories().toString());*/
-            Text text2=new Text("Some Text");
-            text2.setStyle("-fx-font-weight: regular");
-            listView.getItems().add(text2);
+            TextFlow flow = new TextFlow();
+
+            Text titre=new Text("Titre: "+article.getTitle()+"\n");
+            titre.setStyle("-fx-font-weight: bold");
+            Text labelAuteurs=new Text("Auteurs: ");
+            labelAuteurs.setStyle("-fx-fill: #138925; ");
+            Text auteurs=new Text(article.getAuthors().toString());
+            auteurs.setStyle("-fx-fill: #1665c1;");
+            Text id=new Text("\nID: "+article.getId());
+            id.setStyle("-fx-fill: #1665c1;");
+            Text date=new Text("\nPublié le "+formatOfDate(article.getPublished()));
+
+            flow.getChildren().addAll(titre, labelAuteurs, auteurs, id, date);
+            listView.getItems().add(flow);
         }
+    }
+
+    /**
+     * return the correct date format
+     * @param date
+     * @return
+     */
+    private String formatOfDate(Date date){
+        String format = "dd/MM/yyyy H:mm:ss";
+        SimpleDateFormat formater = new SimpleDateFormat(format);
+        return formater.format(date);
     }
 
 
@@ -85,12 +103,22 @@ public class ArxivOrgController extends Controller implements Initializable {
         activateButtons();
         resetCkeckBox();
         Article article = getSelectedArticle();
-        infosTextArea.setText("Title : "+article.getTitle()
-                + "\nAuteurs : "+article.getAuthors().toString()
-                + "\nCategorie(s) : "+article.getCategories().toString()
-                + "\nDate : "+article.getPublished().toString()
-                + "\nDescription :\n"+article.getSummary()
-                + "\nLien: "+article.getId());
+
+        Text title=new Text("Titre: "+article.getTitle()+"\n");
+        title.setStyle("-fx-font-weight: bold");
+        Text labelAuteurs=new Text("Auteurs: ");
+        labelAuteurs.setStyle("-fx-fill: #138925; ");
+        Text auteurs=new Text(article.getAuthors().toString());
+        auteurs.setStyle("-fx-fill: #1665c1;");
+        Text description=new Text("\n\n"+article.getSummary());
+        Text categories=new Text("\n"+article.getCategories().toString());
+        Text date=new Text("\nPublié le "+formatOfDate(article.getPublished()));
+        Text id=new Text("\nLien: "+article.getId());
+        id.setStyle("-fx-fill: #1665c1;");
+
+        infosText.getChildren().clear();
+        infosText.getChildren().addAll(title, labelAuteurs, auteurs, description, categories, date, id);
+
     }
 
 
