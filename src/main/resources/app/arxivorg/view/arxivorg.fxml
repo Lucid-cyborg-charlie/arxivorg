@@ -21,8 +21,7 @@
 <?import javafx.scene.text.TextFlow?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0"
-            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
     <left>
         <VBox fx:id="leftPanel" prefHeight="651.0" prefWidth="191.0" spacing="15.0" BorderPane.alignment="CENTER">
             <children>
@@ -180,13 +179,14 @@
                      <graphic>
                         <FontIcon iconLiteral="eli-star-empty" />
                      </graphic></MenuItem>
-                <MenuItem fx:id="statistiqueMenu" mnemonicParsing="false" onAction="#displayStatistics" text="Statistique">
+                <MenuItem fx:id="statistiqueMenu" mnemonicParsing="false" text="Statistique">
                      <graphic>
                         <FontIcon iconLiteral="eli-signal" />
                      </graphic></MenuItem>
-                <MenuItem mnemonicParsing="false" onAction="#statArticleByCategory" text="Article par catégorie" />
-                  <MenuItem mnemonicParsing="false" onAction="#statArticleByDay" text="Articles par jour" />
-                  <MenuItem mnemonicParsing="false" onAction="#statArticleByAuthor" text="Auteur productif" />
+                <MenuItem mnemonicParsing="false" onAction="#statArticleByCategory" text="Articles par catégories" />
+                  <MenuItem mnemonicParsing="false" onAction="#statArticleByDay" text="Articles par jours" />
+                  <MenuItem mnemonicParsing="false" onAction="#statArticleByAuthor" text="Auteurs productifs" />
+                  <MenuItem mnemonicParsing="false" onAction="#statArticleByExpression" text="Expressions courantes" />
                   <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#closeWindows" text="Quitter" />
               </items>
                <graphic>

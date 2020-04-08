@@ -276,7 +276,7 @@ public class ArxivOrgController extends Controller implements Initializable {
             public void run() {
                 try {
                     Thread.sleep(2000); // just emulates some loading time
-                    managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker));
+                    managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker.getValue()));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -292,6 +292,9 @@ public class ArxivOrgController extends Controller implements Initializable {
                 }
             }
         }).start();
+        managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker.getValue()));
+        listView.getItems().clear();
+        displayArticles(managerArticle.getArticles());
     }
 
 
@@ -408,7 +411,8 @@ public class ArxivOrgController extends Controller implements Initializable {
         makeWindows("/app/arxivorg/view/articleByAuthor.fxml", "statistique");
     }
 
-    @FXML
-    public void displayStatistics(ActionEvent actionEvent) {
+
+    public void statArticleByExpression(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByExpression.fxml", "statistique");
     }
 }
