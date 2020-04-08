@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="499.0" prefWidth="598.0"  xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArticleByExpressionResult">
+   <children>
+      <BarChart fx:id="barChart" layoutX="34.0" layoutY="55.0" prefHeight="361.0" prefWidth="531.0" title="Expressions les plus courantes">
+        <xAxis>
+          <CategoryAxis label="Expressions" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="Articles" side="LEFT" />
+        </yAxis>
+      </BarChart>
+   </children>
+</AnchorPane>

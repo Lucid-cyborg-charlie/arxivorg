@@ -1,12 +1,14 @@
 package app.arxivorg.controller;
 
 import app.arxivorg.model.*;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -38,6 +40,9 @@ public class ArxivOrgController extends Controller implements Initializable {
     private TextField keyWordField;
     @FXML
     private CheckBox favoriteCheckBox;
+    @FXML
+    private StackPane stackPane;
+    final ProgressIndicator loadingIndicator = new ProgressIndicator();
 
     private  ManagerArticle managerArticle = new ManagerArticle();
     private List<Article> favorites;
@@ -48,6 +53,8 @@ public class ArxivOrgController extends Controller implements Initializable {
         displayArticles(managerArticle.getArticles());
         displayCategories();
         favorites=User.getArticlesByID();
+        stackPane.getChildren().add(loadingIndicator);
+        loadingIndicator.setVisible(false);
     }
 
 
@@ -58,31 +65,69 @@ public class ArxivOrgController extends Controller implements Initializable {
     private void displayArticles(List<Article> articles){
         for(Article article: articles){
             TextFlow flow = new TextFlow();
-
-            Text titre=new Text("Titre: "+article.getTitle()+"\n");
-            titre.setStyle("-fx-font-weight: bold");
-            Text labelAuteurs=new Text("Auteurs: ");
-            labelAuteurs.setStyle("-fx-fill: #138925; ");
-            Text auteurs=new Text(article.getAuthors().toString());
-            auteurs.setStyle("-fx-fill: #1665c1;");
-            Text id=new Text("\nID: "+article.getId());
-            id.setStyle("-fx-fill: #1665c1;");
-            Text date=new Text("\nPublié le "+formatOfDate(article.getPublished()));
-
-            flow.getChildren().addAll(titre, labelAuteurs, auteurs, id, date);
+            flow.getChildren().addAll(getStyleText(article));
             listView.getItems().add(flow);
         }
     }
+
+
+    /**
+     * style the text
+     * @param article
+     * @return
+     */
+    public static List<Text> getStyleText(Article article){
+        List<Text> texts = new ArrayList<Text>();
+        Text titre=new Text("Titre: "+article.getTitle()+"\n");
+        titre.setStyle("-fx-font-weight: bold");
+        Text labelAuthors=new Text("Auteurs: ");
+        labelAuthors.setStyle("-fx-fill: #138925; ");
+        Text authors=new Text(reduceNumberOfAuthors(article.getAuthors()));
+        authors.setStyle("-fx-fill: #1665c1;");
+        Text id=new Text("\nID: "+article.getId());
+        id.setStyle("-fx-fill: #1665c1;");
+        Text date=new Text("\nPublié le "+formatOfDate(article.getPublished()));
+        texts.add(titre); texts.add(labelAuthors); texts.add(authors); texts.add(id);
+        texts.add(date);
+        return texts;
+
+    }
+
 
     /**
      * return the correct date format
      * @param date
      * @return
      */
-    private String formatOfDate(Date date){
+    private static String formatOfDate(Date date){
         String format = "dd/MM/yyyy H:mm:ss";
-        SimpleDateFormat formater = new SimpleDateFormat(format);
-        return formater.format(date);
+        SimpleDateFormat formatting = new SimpleDateFormat(format);
+        try {
+            String res = formatting.format(date);
+            return res;
+        }catch (Exception e){
+            return "";
+        }
+    }
+
+
+    /**
+     * reduce the number of authors
+     * @param authors
+     * @return
+     */
+    private  static String reduceNumberOfAuthors(List<String> authors){
+        List<String> reduction = new ArrayList<>();
+        int count=0;
+        for(String author: authors){
+            count++;
+            if(count <= 6){
+                reduction.add(author);
+            }else {
+                break;
+            }
+        }
+        return reduction.toString();
     }
 
 
@@ -100,25 +145,17 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displaySelectedArticle(MouseEvent mouseEvent) {
-        activateButtons();
-        resetCkeckBox();
         Article article = getSelectedArticle();
-
-        Text title=new Text("Titre: "+article.getTitle()+"\n");
-        title.setStyle("-fx-font-weight: bold");
-        Text labelAuteurs=new Text("Auteurs: ");
-        labelAuteurs.setStyle("-fx-fill: #138925; ");
-        Text auteurs=new Text(article.getAuthors().toString());
-        auteurs.setStyle("-fx-fill: #1665c1;");
-        Text description=new Text("\n\n"+article.getSummary());
-        Text categories=new Text("\n"+article.getCategories().toString());
-        Text date=new Text("\nPublié le "+formatOfDate(article.getPublished()));
-        Text id=new Text("\nLien: "+article.getId());
-        id.setStyle("-fx-fill: #1665c1;");
-
-        infosText.getChildren().clear();
-        infosText.getChildren().addAll(title, labelAuteurs, auteurs, description, categories, date, id);
-
+        if(article != null){
+            activateButtons();
+            resetCkeckBox();
+            List<Text> texts = getStyleText(article);
+            Text description=new Text("\n\n"+article.getSummary());
+            Text categories=new Text("\n"+article.getCategories().toString());
+            infosText.getChildren().clear();
+            infosText.getChildren().addAll(texts.get(0), texts.get(1), texts.get(2),
+                    description, categories, texts.get(3), texts.get(4));
+        }
     }
 
 
@@ -132,8 +169,7 @@ public class ArxivOrgController extends Controller implements Initializable {
             Article article = managerArticle.getArticles().get(currentIndex);
             return article;
         }catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
-            return new Article();//empty article
+            return null;
         }
     }
 
@@ -165,9 +201,31 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayArticlesByCategory(ActionEvent actionEvent) {
-       managerArticle.setArticles(managerArticle.getArticlesByCategory(categoryComboBox.getSelectionModel().getSelectedItem()));
-       listView.getItems().clear();
-       displayArticles(managerArticle.getArticles());
+        listView.getItems().clear();
+        loadingIndicator.setVisible(true);
+        // loads the items at another thread, asynchronously
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000); // just emulates some loading time
+                    managerArticle.setArticles(managerArticle.getArticlesByCategory
+                            (categoryComboBox.getSelectionModel().getSelectedItem()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    // just updates the list view items at the
+                    // Application Thread
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayArticles(managerArticle.getArticles());
+                            loadingIndicator.setVisible(false); // stop displaying the loading indicator
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 
@@ -177,9 +235,30 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayArticlesByAuthor(ActionEvent actionEvent) {
-        managerArticle.setArticles(managerArticle.getArticlesByAuthor(authorField.getText()));
         listView.getItems().clear();
-        displayArticles(managerArticle.getArticles());
+        loadingIndicator.setVisible(true);
+        // loads the items at another thread, asynchronously
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000); // just emulates some loading time
+                    managerArticle.setArticles(managerArticle.getArticlesByAuthor(authorField.getText()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    // just updates the list view items at the
+                    // Application Thread
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayArticles(managerArticle.getArticles());
+                            loadingIndicator.setVisible(false); // stop displaying the loading indicator
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 
@@ -189,7 +268,31 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayArticlesByPeriod(ActionEvent actionEvent) {
-        managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker));
+        listView.getItems().clear();
+        loadingIndicator.setVisible(true);
+        // loads the items at another thread, asynchronously
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000); // just emulates some loading time
+                    managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker.getValue()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    // just updates the list view items at the
+                    // Application Thread
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayArticles(managerArticle.getArticles());
+                            loadingIndicator.setVisible(false); // stop displaying the loading indicator
+                        }
+                    });
+                }
+            }
+        }).start();
+        managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker.getValue()));
         listView.getItems().clear();
         displayArticles(managerArticle.getArticles());
     }
@@ -201,9 +304,31 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayArticlesByKeyWord(ActionEvent actionEvent) {
-        managerArticle.setArticles(managerArticle.getArticleByKeyWord(keyWordField.getCharacters().toString()));
         listView.getItems().clear();
-        displayArticles(managerArticle.getArticles());
+        loadingIndicator.setVisible(true);
+        // loads the items at another thread, asynchronously
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000); // just emulates some loading time
+                    managerArticle.setArticles(managerArticle.getArticleByKeyWord(
+                            keyWordField.getCharacters().toString()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    // just updates the list view items at the
+                    // Application Thread
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayArticles(managerArticle.getArticles());
+                            loadingIndicator.setVisible(false); // stop displaying the loading indicator
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 
@@ -286,7 +411,8 @@ public class ArxivOrgController extends Controller implements Initializable {
         makeWindows("/app/arxivorg/view/articleByAuthor.fxml", "statistique");
     }
 
-    @FXML
-    public void displayStatistics(ActionEvent actionEvent) {
+
+    public void statArticleByExpression(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByExpression.fxml", "statistique");
     }
 }

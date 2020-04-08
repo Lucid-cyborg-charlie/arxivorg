@@ -15,17 +15,17 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0"
-            xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
     <left>
         <VBox fx:id="leftPanel" prefHeight="651.0" prefWidth="191.0" spacing="15.0" BorderPane.alignment="CENTER">
             <children>
-            <Label alignment="CENTER" prefHeight="53.0" prefWidth="190.0" text="FILTRES">
+            <Label fx:id="labelFilter" alignment="CENTER" prefHeight="53.0" prefWidth="190.0" text="FILTRES">
                <font>
                   <Font name="Loma" size="24.0" />
                </font>
@@ -36,7 +36,7 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </Label>
-                <Label prefHeight="36.0" prefWidth="209.0" text="Catégories">
+                <Label fx:id="labelCategory" prefHeight="36.0" prefWidth="209.0" text="Catégories">
                     <font>
                         <Font name="Loma" size="17.0" />
                     </font>
@@ -55,7 +55,7 @@
                         <Insets left="3.0" right="3.0" />
                     </VBox.margin>
                 </ComboBox>
-                <Label prefHeight="39.0" prefWidth="201.0" text="Période">
+                <Label fx:id="labelPeriod" prefHeight="39.0" prefWidth="201.0" text="Période">
                     <font>
                         <Font name="Loma Bold" size="17.0" />
                     </font>
@@ -70,7 +70,7 @@
                <VBox.margin>
                   <Insets left="3.0" right="3.0" />
                </VBox.margin></DatePicker>
-                <Label prefHeight="38.0" prefWidth="195.0" text="Auteurs">
+                <Label fx:id="labelAuthors" prefHeight="38.0" prefWidth="195.0" text="Auteurs">
                     <font>
                         <Font name="Loma" size="17.0" />
                     </font>
@@ -86,7 +86,7 @@
                         <Insets left="3.0" right="3.0" />
                     </VBox.margin>
                 </TextField>
-                <Label prefHeight="39.0" prefWidth="199.0" text="Mots-Cléfs">
+                <Label fx:id="labelKey" prefHeight="39.0" prefWidth="199.0" text="Mots-Cléfs">
                     <font>
                         <Font name="Loma" size="17.0" />
                     </font>
@@ -115,10 +115,11 @@
     <center>
         <VBox fx:id="centerPanel" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <ListView fx:id="listView" onMouseClicked="#displaySelectedArticle" prefHeight="504.0" prefWidth="948.0">
-                    <VBox.margin>
-                        <Insets right="10.0" />
-                    </VBox.margin></ListView>
+            <StackPane fx:id="stackPane" prefHeight="515.0" prefWidth="958.0">
+               <children>
+                      <ListView fx:id="listView" onMouseClicked="#displaySelectedArticle" prefHeight="498.0" prefWidth="958.0" />
+               </children>
+            </StackPane>
                 <Separator prefWidth="200.0">
                     <VBox.margin>
                         <Insets right="10.0" />
@@ -126,9 +127,9 @@
                 </Separator>
                 <HBox prefHeight="247.0" prefWidth="958.0">
                     <children>
-                  <ScrollPane prefHeight="247.0" prefWidth="858.0">
+                  <ScrollPane prefHeight="245.0" prefWidth="825.0">
                      <content>
-                        <TextFlow fx:id="infosText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="247.0" prefWidth="738.0" textAlignment="JUSTIFY" />
+                        <TextFlow fx:id="infosText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="243.0" prefWidth="681.0" textAlignment="JUSTIFY" />
                      </content>
                   </ScrollPane>
                         <VBox prefHeight="235.0" prefWidth="335.0">
@@ -178,13 +179,14 @@
                      <graphic>
                         <FontIcon iconLiteral="eli-star-empty" />
                      </graphic></MenuItem>
-                <MenuItem fx:id="statistiqueMenu" mnemonicParsing="false" onAction="#displayStatistics" text="Statistique">
+                <MenuItem fx:id="statistiqueMenu" mnemonicParsing="false" text="Statistique">
                      <graphic>
                         <FontIcon iconLiteral="eli-signal" />
                      </graphic></MenuItem>
-                <MenuItem mnemonicParsing="false" onAction="#statArticleByCategory" text="Article par catégorie" />
-                  <MenuItem mnemonicParsing="false" onAction="#statArticleByDay" text="Articles par jour" />
-                  <MenuItem mnemonicParsing="false" onAction="#statArticleByAuthor" text="Auteur productif" />
+                <MenuItem mnemonicParsing="false" onAction="#statArticleByCategory" text="Articles par catégories" />
+                  <MenuItem mnemonicParsing="false" onAction="#statArticleByDay" text="Articles par jours" />
+                  <MenuItem mnemonicParsing="false" onAction="#statArticleByAuthor" text="Auteurs productifs" />
+                  <MenuItem mnemonicParsing="false" onAction="#statArticleByExpression" text="Expressions courantes" />
                   <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#closeWindows" text="Quitter" />
               </items>
                <graphic>

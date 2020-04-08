@@ -2,6 +2,7 @@ package app.arxivorg.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,14 +12,16 @@ class UserTest {
 
     @Test
     void saveArticle() {
-        boolean isSave=User.saveArticle("8000");
-        assertTrue(isSave==true);
+        assertTrue(User.saveArticle("2004.03543v1"));
+        assertTrue(User.saveArticle("2004.03540v1"));
+        assertTrue(User.saveArticle("2004.03522v1"));
     }
 
     @Test
     void removeArticle() {
-        boolean isRemove=User.removeArticle("8000");
-        assertTrue(isRemove==true);
+        assertTrue(User.removeArticle("2004.03543v1"));
+        assertTrue(User.removeArticle("2004.03540v1"));
+        assertTrue(User.removeArticle("2004.03522v1"));
     }
 
     @Test
@@ -37,6 +40,6 @@ class UserTest {
     @Test
     void getArticlesByID(){
         int count=User.getArticlesByID().size();
-        assertEquals(4, count);
+        assertEquals(0, count);
     }
 }

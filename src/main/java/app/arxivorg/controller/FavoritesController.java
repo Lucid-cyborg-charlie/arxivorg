@@ -8,8 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -38,10 +43,9 @@ public class FavoritesController extends Controller implements Initializable {
      */
     public void displayArticles(){
         for(Article article: favorites){
-            listView.getItems().add("Titre : "+article.getTitle()
-                    +"\nAuteurs : "+article.getAuthors().toString()
-                    +"\nID: "+article.getId()
-                    +"\nCategory(ies) : "+article.getCategories().toString());
+            TextFlow flow = new TextFlow();
+            flow.getChildren().addAll(ArxivOrgController.getStyleText(article));
+            listView.getItems().add(flow);
         }
     }
 

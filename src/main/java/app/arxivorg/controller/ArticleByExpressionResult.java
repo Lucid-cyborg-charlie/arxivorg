@@ -7,20 +7,18 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 
-public class ArticleByCategoryController extends StatisticController implements Initializable {
-
-    private ManagerArticle managerArticle = new ManagerArticle();
+public class ArticleByExpressionResult extends StatisticController implements Initializable {
     @FXML
-    private BarChart<String, Integer> barChart;
+    public BarChart<String, Integer> barChart;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        XYChart.Series<String, Integer> series = getSeries(managerArticle.statArticlesByCategories());
-        series.setName("Categories");
+        XYChart.Series<String, Integer> series= getSeries(ManagerArticle.map);
+        series.setName("Expressions");
         barChart.getData().addAll(series);
     }
+
 }
