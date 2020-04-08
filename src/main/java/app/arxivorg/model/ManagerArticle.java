@@ -22,10 +22,12 @@ import java.util.*;
 public class ManagerArticle {
 
     private List<Article> articles;
+    public static Map<String, Integer> map;
     private Set<String> categories;
     private final List<Article> FinalArticles; // help to handle getArticlesByPeriod and getArticlesByCategories
 
     public ManagerArticle(){
+        map = new HashMap<>();
         this.FinalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
         this.articles = new LinkedList<Article>();
         this.categories = new HashSet<String>();
@@ -301,7 +303,7 @@ public class ManagerArticle {
      * @param expressions
      * @return
      */
-    public Map<String, Integer> statArticleByExpression(String expressions){
+    public void statArticleByExpression(String expressions){
         String[] list = expressions.split(",");
         Map<String, Integer> map = new HashMap<>();
         for(String expression : list){
@@ -311,6 +313,7 @@ public class ManagerArticle {
             }
             if(cmp > 0) map.put(expression, cmp);
         }
-        return map;
+        ManagerArticle.map = map;
     }
+
 }
