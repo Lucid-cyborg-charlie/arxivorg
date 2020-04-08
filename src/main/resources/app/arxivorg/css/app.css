@@ -1,0 +1,23 @@
+#topPanel{
+    -fx-background-color: #1398AB;
+}
+
+#labelApp{
+    -fx-text-fill: #fff;
+}
+
+#leftPanel{
+    -fx-background-color: #03040a;
+}
+
+#leftPanel .label{
+    -fx-text-fill: #fff;
+}
+
+#oneDownloadButton{
+    -fx-background-color: #1398AB;
+}
+
+#allDownloadButton{
+    -fx-background-color: #1398AB;
+}

@@ -7,9 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.util.*;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 
 /**
@@ -22,7 +25,7 @@ public class ArxivOrgController extends Controller implements Initializable {
     @FXML
     public Button oneDownloadButton;
     @FXML
-    private ListView<String> listView;
+    private ListView<Text> listView;
     @FXML
     private TextArea infosTextArea;
     @FXML
@@ -36,11 +39,9 @@ public class ArxivOrgController extends Controller implements Initializable {
     @FXML
     private CheckBox favoriteCheckBox;
 
-
     private  ManagerArticle managerArticle = new ManagerArticle();
     private List<Article> favorites;
     private int currentIndex = -1;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
@@ -56,10 +57,13 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     private void displayArticles(List<Article> articles){
         for(Article article: articles){
-            listView.getItems().add("Titre : "+article.getTitle()
+            /*listView.getItems().add("Titre : "+article.getTitle()
                     +"\nAuteurs : "+article.getAuthors().toString()
                     +"\nID: "+article.getId()
-                    +"\nCategory(ies) : "+article.getCategories().toString());
+                    +"\nCategory(ies) : "+article.getCategories().toString());*/
+            Text text2=new Text("Some Text");
+            text2.setStyle("-fx-font-weight: regular");
+            listView.getItems().add(text2);
         }
     }
 
@@ -222,20 +226,10 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayFavorites(ActionEvent actionEvent){
-       FXMLLoader loader = makeWindows("/app/arxivorg/view/favorites.fxml", "Mes Favoris");
+       FXMLLoader loader = makeWindows("/app/arxivorg/view/favorites.fxml", "Mes Favories");
        FavoritesController favoritesController = loader.getController();
        favoritesController.setFavorites(favorites);
        favoritesController.displayArticles();
-    }
-
-
-    /**
-     * Displays statistics
-     * @param actionEvent
-     */
-    @FXML
-    public void displayStatistics(ActionEvent actionEvent){
-
     }
 
 
@@ -249,4 +243,22 @@ public class ArxivOrgController extends Controller implements Initializable {
         stage.close();
     }
 
+    @FXML
+    public void statArticleByCategory(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByCategory.fxml", "statistique");
+    }
+
+    @FXML
+    public void statArticleByDay(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByDay.fxml", "statistique");
+    }
+
+    @FXML
+    public void statArticleByAuthor(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByAuthor.fxml", "statistique");
+    }
+
+    @FXML
+    public void displayStatistics(ActionEvent actionEvent) {
+    }
 }

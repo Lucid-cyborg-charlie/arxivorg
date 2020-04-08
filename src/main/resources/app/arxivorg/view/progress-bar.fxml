@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ProgressBarController">
+<AnchorPane prefHeight="215.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ProgressBarController">
    <children>
       <ProgressBar fx:id="progressBar" layoutX="63.0" layoutY="73.0" prefHeight="35.0" prefWidth="298.0" progress="0.0" />
       <Label fx:id="progressLabel" alignment="CENTER" layoutX="63.0" layoutY="28.0" prefHeight="35.0" prefWidth="298.0" text="Chargement en cours ...">
