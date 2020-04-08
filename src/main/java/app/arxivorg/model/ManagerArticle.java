@@ -119,7 +119,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticleByKeyWord(String word){
         return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:" +
-                word+"&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
+                word+"&start=0&max_results=200&sortBy=submittedDate&sortOrder=descending");
     }
 
 

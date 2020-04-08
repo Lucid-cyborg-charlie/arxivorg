@@ -411,7 +411,8 @@ public class ArxivOrgController extends Controller implements Initializable {
         makeWindows("/app/arxivorg/view/articleByAuthor.fxml", "statistique");
     }
 
-    @FXML
-    public void displayStatistics(ActionEvent actionEvent) {
+
+    public void statArticleByExpression(ActionEvent actionEvent) {
+        makeWindows("/app/arxivorg/view/articleByExpression.fxml", "statistique");
     }
 }
