@@ -27,10 +27,10 @@ class ManagerArticleTest {
      */
     @Test
     void getArticleByCategory(){
-        testGetArticlesByCategory("math.GT");
-        testGetArticlesByCategory("cs.AI");
-        testGetArticlesByCategory("help-ph");
-        testGetArticlesByCategory("stat.ML");
+        assertTrue(testGetArticlesByCategory("math.GT"));
+        assertTrue(testGetArticlesByCategory("cs.AI"));
+        assertTrue(testGetArticlesByCategory("help-ph"));
+        assertTrue(testGetArticlesByCategory("stat.ML"));
 
     }
 

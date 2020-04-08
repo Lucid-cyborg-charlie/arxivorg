@@ -1,27 +1,24 @@
 package app.arxivorg.controller;
 
 import app.arxivorg.model.ManagerArticle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ArticleByExpressionResult extends StatisticController implements Initializable {
-    public BarChart barChart;
-    ArticleByExpressionController controller;
+    @FXML
+    public BarChart<String, Integer> barChart;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        controller = new ArticleByExpressionController();
-    }
-
-
-    public void displayStat(Map<String, Integer> map){
-        XYChart.Series<String, Integer> series = getSeries(map);
-        series.setName("Expression");
+        XYChart.Series<String, Integer> series= getSeries(ManagerArticle.map);
+        series.setName("Expressions");
         barChart.getData().addAll(series);
     }
+
 }
