@@ -44,7 +44,7 @@ public class User {
      * Read the file favoris.txt
      * @return list of id
      */
-    private static List<String> readFile(){
+    public static List<String> readFile(){
         List<String> idList=new ArrayList<>();
         BufferedReader reader = null;
         try {
