@@ -1,12 +1,14 @@
 package app.arxivorg.controller;
 
 import app.arxivorg.model.*;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -38,6 +40,9 @@ public class ArxivOrgController extends Controller implements Initializable {
     private TextField keyWordField;
     @FXML
     private CheckBox favoriteCheckBox;
+    @FXML
+    private StackPane stackPane;
+    final ProgressIndicator loadingIndicator = new ProgressIndicator();
 
     private  ManagerArticle managerArticle = new ManagerArticle();
     private List<Article> favorites;
@@ -48,6 +53,8 @@ public class ArxivOrgController extends Controller implements Initializable {
         displayArticles(managerArticle.getArticles());
         displayCategories();
         favorites=User.getArticlesByID();
+        stackPane.getChildren().add(loadingIndicator);
+        loadingIndicator.setVisible(false);
     }
 
 
@@ -194,9 +201,31 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayArticlesByCategory(ActionEvent actionEvent) {
-       managerArticle.setArticles(managerArticle.getArticlesByCategory(categoryComboBox.getSelectionModel().getSelectedItem()));
-       listView.getItems().clear();
-       displayArticles(managerArticle.getArticles());
+        listView.getItems().clear();
+        loadingIndicator.setVisible(true);
+        // loads the items at another thread, asynchronously
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000); // just emulates some loading time
+                    managerArticle.setArticles(managerArticle.getArticlesByCategory
+                            (categoryComboBox.getSelectionModel().getSelectedItem()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    // just updates the list view items at the
+                    // Application Thread
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayArticles(managerArticle.getArticles());
+                            loadingIndicator.setVisible(false); // stop displaying the loading indicator
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 
@@ -206,9 +235,30 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayArticlesByAuthor(ActionEvent actionEvent) {
-        managerArticle.setArticles(managerArticle.getArticlesByAuthor(authorField.getText()));
         listView.getItems().clear();
-        displayArticles(managerArticle.getArticles());
+        loadingIndicator.setVisible(true);
+        // loads the items at another thread, asynchronously
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000); // just emulates some loading time
+                    managerArticle.setArticles(managerArticle.getArticlesByAuthor(authorField.getText()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    // just updates the list view items at the
+                    // Application Thread
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayArticles(managerArticle.getArticles());
+                            loadingIndicator.setVisible(false); // stop displaying the loading indicator
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 
@@ -218,9 +268,30 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayArticlesByPeriod(ActionEvent actionEvent) {
-        managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker));
         listView.getItems().clear();
-        displayArticles(managerArticle.getArticles());
+        loadingIndicator.setVisible(true);
+        // loads the items at another thread, asynchronously
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000); // just emulates some loading time
+                    managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    // just updates the list view items at the
+                    // Application Thread
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayArticles(managerArticle.getArticles());
+                            loadingIndicator.setVisible(false); // stop displaying the loading indicator
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 
@@ -230,9 +301,31 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayArticlesByKeyWord(ActionEvent actionEvent) {
-        managerArticle.setArticles(managerArticle.getArticleByKeyWord(keyWordField.getCharacters().toString()));
         listView.getItems().clear();
-        displayArticles(managerArticle.getArticles());
+        loadingIndicator.setVisible(true);
+        // loads the items at another thread, asynchronously
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000); // just emulates some loading time
+                    managerArticle.setArticles(managerArticle.getArticleByKeyWord(
+                            keyWordField.getCharacters().toString()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    // just updates the list view items at the
+                    // Application Thread
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayArticles(managerArticle.getArticles());
+                            loadingIndicator.setVisible(false); // stop displaying the loading indicator
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 
