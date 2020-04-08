@@ -13,7 +13,6 @@ class ManagerArticleTest {
     
     ManagerArticle managerArticle = new ManagerArticle();
 
-
     boolean testGetArticlesByCategory(String cat) {
         for (Article article : managerArticle.getArticlesByCategory(cat)) {
             if(!article.getCategories().contains(cat)) return false;
@@ -27,14 +26,11 @@ class ManagerArticleTest {
      */
     @Test
     void getArticleByCategory(){
-        testGetArticlesByCategory("math.GT");
-        testGetArticlesByCategory("cs.AI");
-        testGetArticlesByCategory("help-ph");
-        testGetArticlesByCategory("stat.ML");
-
+        assertTrue(testGetArticlesByCategory("math.GT"));
+        assertTrue(testGetArticlesByCategory("cs.AI"));
+        assertTrue(testGetArticlesByCategory("help-ph"));
+        assertTrue(testGetArticlesByCategory("stat.ML"));
     }
-
-
 
 
     boolean testGetArticlesByPeriod(LocalDate date) {
@@ -60,8 +56,6 @@ class ManagerArticleTest {
         assertTrue(testGetArticlesByPeriod(LocalDate.of(2020, 04, 04)));
         assertTrue(testGetArticlesByPeriod(LocalDate.of(2020, 04, 07)));
     }
-
-
 
 
     boolean  testGetArticlesByAuthor(String au) {
