@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.util.*;
@@ -23,7 +25,7 @@ public class ArxivOrgController extends Controller implements Initializable {
     @FXML
     public Button oneDownloadButton;
     @FXML
-    private ListView<String> listView;
+    private ListView<Text> listView;
     @FXML
     private TextArea infosTextArea;
     @FXML
@@ -55,10 +57,13 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     private void displayArticles(List<Article> articles){
         for(Article article: articles){
-            listView.getItems().add("Titre : "+article.getTitle()
+            /*listView.getItems().add("Titre : "+article.getTitle()
                     +"\nAuteurs : "+article.getAuthors().toString()
                     +"\nID: "+article.getId()
-                    +"\nCategory(ies) : "+article.getCategories().toString());
+                    +"\nCategory(ies) : "+article.getCategories().toString());*/
+            Text text2=new Text("Some Text");
+            text2.setStyle("-fx-font-weight: regular");
+            listView.getItems().add(text2);
         }
     }
 
@@ -226,8 +231,6 @@ public class ArxivOrgController extends Controller implements Initializable {
        favoritesController.setFavorites(favorites);
        favoritesController.displayArticles();
     }
-
-
 
 
     /**

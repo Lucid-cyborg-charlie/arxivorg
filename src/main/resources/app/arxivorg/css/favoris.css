@@ -7,3 +7,7 @@
     -fx-text-fill: #fff;
     -fx-background-color: #1398AB;
 }
+
+#listView .item{
+    -fx-alignment: justify;
+}

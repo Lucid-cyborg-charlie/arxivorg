@@ -5,7 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="739.0" prefWidth="879.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.FavoritesController">
+<AnchorPane prefHeight="739.0" prefWidth="879.0"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.arxivorg.controller.FavoritesController">
    <children>
       <ListView fx:id="listView" layoutX="15.0" layoutY="14.0" onMouseClicked="#changeCurrentIndex" prefHeight="711.0" prefWidth="738.0" />
       <Button fx:id="deleteButton" disable="true" layoutX="756.0" layoutY="54.0" mnemonicParsing="false" onAction="#deleteArticle" prefHeight="26.0" prefWidth="112.0" text="supprimer" textFill="WHITE" AnchorPane.leftAnchor="758.0" AnchorPane.rightAnchor="11.0">

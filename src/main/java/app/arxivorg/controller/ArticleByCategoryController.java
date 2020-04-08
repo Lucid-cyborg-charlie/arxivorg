@@ -17,13 +17,13 @@ public class ArticleByCategoryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        XYChart.Series series = new XYChart.Series<>();
+        /*XYChart.Series series = new XYChart.Series<>();
         Map<String, Integer> map = managerArticle.statArticlesByCategories();
         for(Map.Entry<String, Integer> entry : map.entrySet()){
             series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
         }
         series.setName("Categories");
 
-        barChart.getData().addAll(series);
+        barChart.getData().addAll(series);*/
     }
 }
