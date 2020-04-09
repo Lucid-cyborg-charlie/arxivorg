@@ -3,18 +3,15 @@ package app.arxivorg.controller;
 import app.arxivorg.model.ManagerArticle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.awt.print.PrinterGraphics;
 import java.net.URL;
-import java.nio.channels.InterruptedByTimeoutException;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class ArticleByExpressionController extends Controller implements Initializable {
+public class ArticleByExpressionController extends MakeWindows implements Initializable {
 
     @FXML
     private Button closeButton;
@@ -41,7 +38,7 @@ public class ArticleByExpressionController extends Controller implements Initial
 
 
     public void displayStat(Map<String, Integer> map){
-        makeWindows("/app/arxivorg/view/articleByExpressionResult.fxml", "statistique");
+        makeWindows("/app/arxivorg/view/articleByExpressionResult.fxml", "statistique", null);
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }

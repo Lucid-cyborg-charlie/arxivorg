@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Abstract class Controller
  */
-public abstract class Controller {
+public abstract class MakeWindows {
 
 
     /**
@@ -20,7 +20,7 @@ public abstract class Controller {
      * @param articles
      */
     public void displayDownloadProgressBar(List<Article> articles){
-        FXMLLoader loader = makeWindows("/app/arxivorg/view/progress-bar.fxml", "Téléchargement");
+        FXMLLoader loader = makeWindows("/app/arxivorg/view/progress-bar.fxml", "Téléchargement", null);
         ProgressBarController progressBarController = loader.getController();
         progressBarController.startProgress(articles);
     }
@@ -28,13 +28,13 @@ public abstract class Controller {
 
     /**
      * Make windows
-     * @param resources
+     * @param fxml
      * @param title
      * @return FXMLLoader
      */
-    public FXMLLoader makeWindows(String resources, String title){
+    public FXMLLoader makeWindows(String fxml, String title, String css){
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(resources));
+        loader.setLocation(getClass().getResource(fxml));
         AnchorPane panel = null;
         try {
             //build stage of favorites
@@ -42,7 +42,9 @@ public abstract class Controller {
             Stage stage = new Stage();
             stage.setTitle(title);
             Scene scene = new Scene(panel);
-            scene.getStylesheets().add(getClass().getResource("/app/arxivorg/css/favoris.css").toString());
+            if(css!=null){
+                scene.getStylesheets().add(css);
+            }
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();

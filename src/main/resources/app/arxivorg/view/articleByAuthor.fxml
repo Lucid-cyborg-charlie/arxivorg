@@ -3,11 +3,11 @@
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="525.0" prefWidth="780.0"
-            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="568.0" prefWidth="918.0"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="app.arxivorg.controller.ArticleByAuthorController">
    <children>
-      <BarChart fx:id="barChart" layoutX="3.0" layoutY="3.0" prefHeight="519.0" prefWidth="780.0" title="Auteurs les plus productifs">
+      <BarChart fx:id="barChart" layoutX="3.0" layoutY="3.0" prefHeight="543.0" prefWidth="907.0" title="Auteurs les plus productifs">
         <xAxis>
           <CategoryAxis label="Auteurs" side="BOTTOM" />
         </xAxis>

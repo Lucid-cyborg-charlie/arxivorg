@@ -103,7 +103,9 @@ public class User {
     public static List<Article> getArticlesByID(){
         List<Article> articles=null;
         List<String> idList=readFile();
-        String query="http://export.arxiv.org/api/query?id_list="+getIdList(idList);
+        if(idList.contains(""))
+            idList.remove("");
+        String query="https://export.arxiv.org/api/query?id_list="+getIdList(idList);
         return ManagerArticle.loadDataFromAPI(query);
     }
 
