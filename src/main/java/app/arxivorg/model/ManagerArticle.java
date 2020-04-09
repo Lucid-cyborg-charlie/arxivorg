@@ -23,16 +23,17 @@ public class ManagerArticle {
 
     private List<Article> articles;
     public static Map<String, Integer> map;
-    private Set<String> categories;
-    private final List<Article> FinalArticles; // help to handle getArticlesByPeriod and getArticlesByCategories
+    public final static Set<String> categories = loadCategories();;
+    public final static List<Article> FinalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&"+
+            "max_results=500&sortBy=submittedDate&sortOrder=descending");
 
+    /**
+     * Constructor
+     */
     public ManagerArticle(){
         map = new HashMap<>();
-        this.FinalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
         this.articles = new LinkedList<Article>();
-        this.categories = new HashSet<String>();
-        this.articles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
-        loadCategories();
+        this.articles.addAll(FinalArticles);
     }
 
     /**
@@ -121,7 +122,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticleByKeyWord(String word){
         return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:" +
-                word+"&start=0&max_results=200&sortBy=submittedDate&sortOrder=descending");
+                word+"&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
     }
 
 
@@ -129,7 +130,8 @@ public class ManagerArticle {
     /**
      * load all categories from a file in resources
      */
-    private void loadCategories(){
+    private static Set<String> loadCategories(){
+        Set<String> result= new HashSet<>();
         File file = new File("src/main/resources/categories.txt");
         FileReader fileReader = null;
         try {
@@ -137,12 +139,13 @@ public class ManagerArticle {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String category = "";
             while ((category = bufferedReader.readLine()) != null){
-                this.categories.add(category);
+                result.add(category);
             }
+            return result;
         } catch (IOException e) {
             e.printStackTrace();
+            return result;
         }
-
     }
 
 
@@ -150,7 +153,7 @@ public class ManagerArticle {
      * Download an article in pdf
      * @param article
      */
-    public static void downloadArticleToPDF(Article article){
+    private static void downloadArticleToPDF(Article article){
         try {
             String link1=article.getId().replace("abs","pdf");
             String link2=link1.replace("http", "https");
@@ -184,7 +187,7 @@ public class ManagerArticle {
      * @param dateToConvert
      * @return
      */
-    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+    public static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
         return dateToConvert.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
@@ -231,7 +234,7 @@ public class ManagerArticle {
     /**
      * @return articles dates
      */
-    private Set<String> extractDate(){
+    private static Set<String> extractDate(){
         Set<String> list = new HashSet<>();
         for(Article article : FinalArticles){
             LocalDate localDate = convertToLocalDateViaInstant(article.getPublished());
@@ -242,7 +245,7 @@ public class ManagerArticle {
     /**
      * @return articles authors
      */
-    private Set<String> extractAuthor(){
+    private static Set<String> extractAuthor(){
         Set<String> list = new HashSet<>();
         for(Article article : FinalArticles){
             list.addAll(article.getAuthors());
@@ -253,7 +256,7 @@ public class ManagerArticle {
     /**
      * @return the number of article by category
      */
-    public Map<String, Integer> statArticlesByCategories(){
+    public static Map<String, Integer> statArticlesByCategories(){
         Map<String, Integer> map = new HashMap<>();
         for(String category : categories){
             int cmp = 0;
@@ -268,7 +271,7 @@ public class ManagerArticle {
     /**
      * @return the number of article by day
      */
-    public Map<String, Integer> statArticleByDay(){
+    public static Map<String, Integer> statArticleByDay(){
         Map<String, Integer> map = new HashMap<>();
         for(String date : extractDate()){
             int cmp = 0;
@@ -285,7 +288,7 @@ public class ManagerArticle {
     /**
      * @return the number of article by author
      */
-    public Map<String, Integer> statArticleByAuthor(){
+    public static Map<String, Integer> statArticleByAuthor(){
         Map<String, Integer> map = new HashMap<>();
         for(String author : extractAuthor()){
             int cmp = 0;

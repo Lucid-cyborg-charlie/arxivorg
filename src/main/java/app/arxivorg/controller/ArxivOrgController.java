@@ -20,7 +20,7 @@ import java.util.*;
 /**
  *  ArxivOrg Controller
  */
-public class ArxivOrgController extends Controller implements Initializable {
+public class ArxivOrgController extends MakeWindows implements Initializable {
 
     @FXML
     public TextFlow infosText;
@@ -82,7 +82,7 @@ public class ArxivOrgController extends Controller implements Initializable {
         titre.setStyle("-fx-font-weight: bold");
         Text labelAuthors=new Text("Auteurs: ");
         labelAuthors.setStyle("-fx-fill: #138925; ");
-        Text authors=new Text(reduceNumberOfAuthors(article.getAuthors()));
+        Text authors=new Text(article.getAuthors().toString());
         authors.setStyle("-fx-fill: #1665c1;");
         Text id=new Text("\nID: "+article.getId());
         id.setStyle("-fx-fill: #1665c1;");
@@ -108,26 +108,6 @@ public class ArxivOrgController extends Controller implements Initializable {
         }catch (Exception e){
             return "";
         }
-    }
-
-
-    /**
-     * reduce the number of authors
-     * @param authors
-     * @return
-     */
-    private  static String reduceNumberOfAuthors(List<String> authors){
-        List<String> reduction = new ArrayList<>();
-        int count=0;
-        for(String author: authors){
-            count++;
-            if(count <= 6){
-                reduction.add(author);
-            }else {
-                break;
-            }
-        }
-        return reduction.toString();
     }
 
 
@@ -276,7 +256,8 @@ public class ArxivOrgController extends Controller implements Initializable {
             public void run() {
                 try {
                     Thread.sleep(2000); // just emulates some loading time
-                    managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker.getValue()));
+                    managerArticle.setArticles(managerArticle.getArticlesByPeriod(
+                            periodDatePicker.getValue()));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -292,9 +273,6 @@ public class ArxivOrgController extends Controller implements Initializable {
                 }
             }
         }).start();
-        managerArticle.setArticles(managerArticle.getArticlesByPeriod(periodDatePicker.getValue()));
-        listView.getItems().clear();
-        displayArticles(managerArticle.getArticles());
     }
 
 
@@ -379,7 +357,8 @@ public class ArxivOrgController extends Controller implements Initializable {
      */
     @FXML
     public void displayFavorites(ActionEvent actionEvent){
-       FXMLLoader loader = makeWindows("/app/arxivorg/view/favorites.fxml", "Mes Favories");
+       FXMLLoader loader = makeWindows("/app/arxivorg/view/favorites.fxml", "Mes Favories",
+               getClass().getResource("/app/arxivorg/css/favoris.css").toString());
        FavoritesController favoritesController = loader.getController();
        favoritesController.setFavorites(favorites);
        favoritesController.displayArticles();
@@ -398,21 +377,21 @@ public class ArxivOrgController extends Controller implements Initializable {
 
     @FXML
     public void statArticleByCategory(ActionEvent actionEvent) {
-        makeWindows("/app/arxivorg/view/articleByCategory.fxml", "statistique");
+        makeWindows("/app/arxivorg/view/articleByCategory.fxml", "statistique",null);
     }
 
     @FXML
     public void statArticleByDay(ActionEvent actionEvent) {
-        makeWindows("/app/arxivorg/view/articleByDay.fxml", "statistique");
+        makeWindows("/app/arxivorg/view/articleByDay.fxml", "statistique", null);
     }
 
     @FXML
     public void statArticleByAuthor(ActionEvent actionEvent) {
-        makeWindows("/app/arxivorg/view/articleByAuthor.fxml", "statistique");
+        makeWindows("/app/arxivorg/view/articleByAuthor.fxml", "statistique",null);
     }
 
 
     public void statArticleByExpression(ActionEvent actionEvent) {
-        makeWindows("/app/arxivorg/view/articleByExpression.fxml", "statistique");
+        makeWindows("/app/arxivorg/view/articleByExpression.fxml", "statistique", null);
     }
 }

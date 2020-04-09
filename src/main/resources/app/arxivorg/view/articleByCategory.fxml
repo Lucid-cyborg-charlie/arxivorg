@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="512.0" prefWidth="773.0"
-            xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArticleByCategoryController">
+<AnchorPane prefHeight="568.0" prefWidth="918.0"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="app.arxivorg.controller.ArticleByCategoryController">
    <children>
-      <BarChart fx:id="barChart" layoutX="3.0" layoutY="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="504.0" prefWidth="766.0" title="Nombre d'article par catégorie">
+      <BarChart fx:id="barChart" layoutX="3.0" layoutY="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="543.0" prefWidth="907.0" title="Nombre d'article par catégorie">
         <xAxis>
           <CategoryAxis label="Catégories" maxWidth="1.7976931348623157E308" side="BOTTOM" />
         </xAxis>

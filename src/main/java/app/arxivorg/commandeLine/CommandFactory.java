@@ -14,6 +14,8 @@ public abstract class CommandFactory {
             return new Exiter();
         }else if(commandName.equalsIgnoreCase("help")){
             return new Helper();
+        }else if(commandName.equalsIgnoreCase("download")){
+            return new Download();
         }
         else{
             return null;

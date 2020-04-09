@@ -21,7 +21,8 @@
 <?import javafx.scene.text.TextFlow?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.arxivorg.controller.ArxivOrgController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1149.0"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.arxivorg.controller.ArxivOrgController">
     <left>
         <VBox fx:id="leftPanel" prefHeight="651.0" prefWidth="191.0" spacing="15.0" BorderPane.alignment="CENTER">
             <children>
@@ -127,9 +128,9 @@
                 </Separator>
                 <HBox prefHeight="247.0" prefWidth="958.0">
                     <children>
-                  <ScrollPane prefHeight="245.0" prefWidth="825.0">
+                  <ScrollPane prefHeight="245.0" prefWidth="876.0">
                      <content>
-                        <TextFlow fx:id="infosText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="243.0" prefWidth="681.0" textAlignment="JUSTIFY" />
+                        <TextFlow fx:id="infosText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="243.0" prefWidth="756.0" textAlignment="JUSTIFY" />
                      </content>
                   </ScrollPane>
                         <VBox prefHeight="235.0" prefWidth="335.0">

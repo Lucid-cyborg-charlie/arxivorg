@@ -8,13 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -22,7 +19,7 @@ import java.util.ResourceBundle;
 /**
  * Favorites Controller
  */
-public class FavoritesController extends Controller implements Initializable {
+public class FavoritesController extends MakeWindows implements Initializable {
 
     @FXML
     public ListView listView;
