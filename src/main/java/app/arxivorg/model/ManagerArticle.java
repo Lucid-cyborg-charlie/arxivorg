@@ -319,4 +319,49 @@ public class ManagerArticle {
         ManagerArticle.map = map;
     }
 
+
+
+    /**
+     * load data from atom file
+     * @param
+     */
+    public static List<Article> loadDataFromAtom(){
+        List<Article> list = new LinkedList<Article>();
+        try {
+            URL url = new URL("C:\\Users\\hblac\\IdeaProjects\\arxivorg\\src\\main\\resources\\atomFile.atom");
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(url));
+
+            // Get the entry items...
+            for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
+
+                // Article constructor
+                Article article=new Article();
+                article.setId(entry.getUri());
+                article.setTitle(entry.getTitle());
+                article.setSummary(entry.getDescription().getValue());
+                article.setUpdated(entry.getUpdatedDate());
+                article.setPublished(entry.getPublishedDate());
+
+                // Get authors
+                for(Object author: entry.getAuthors()){
+                    SyndPersonImpl au = ((SyndPersonImpl)(author));
+                    article.getAuthors().add(au.getName());
+                }
+
+                // Get Categories
+                for(Object category: entry.getCategories()){
+                    SyndCategoryImpl cat = ((SyndCategoryImpl)(category));
+                    article.getCategories().add(cat.getName());
+                }
+
+                list.add(article);
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } return list;
+    }
+
+
+
 }
