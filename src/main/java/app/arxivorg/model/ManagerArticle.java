@@ -328,7 +328,7 @@ public class ManagerArticle {
     public static List<Article> loadDataFromAtom(){
         List<Article> list = new LinkedList<Article>();
         try {
-            URL url = new URL("C:\\Users\\hblac\\IdeaProjects\\arxivorg\\src\\main\\resources\\atomFile.atom");
+            URL url = new URL("src/main/resources/atomFile.atom");
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(url));
 
