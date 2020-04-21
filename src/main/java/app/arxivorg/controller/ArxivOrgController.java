@@ -90,7 +90,6 @@ public class ArxivOrgController extends MakeWindows implements Initializable {
                         count--;
                         updateSeveralDownloadsButton();
                     }
-                    System.out.println(count);
                 });
                 return observable;
             }
