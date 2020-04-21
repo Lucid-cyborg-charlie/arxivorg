@@ -1,0 +1,41 @@
+#topPanel{
+    -fx-background-color: #1398AB;
+}
+
+#labelApp{
+    -fx-text-fill: #fff;
+}
+
+#leftPanel{
+    -fx-background-color: #03040a;
+}
+
+#labelCategory, #labelPeriod, #labelAuthors, #labelKey, #labelFilter{
+    -fx-text-fill: #fff;
+}
+
+#periodDatePicker {
+    -fx-text-fill: #03040a;
+}
+
+#oneDownloadButton{
+    -fx-background-color: #1398AB;
+}
+
+#allDownloadButton{
+    -fx-background-color: #1398AB;
+}
+
+#listView{
+    -fx-alignment: justify;
+    -fx-font-family: Arial, Helvetica, sans-serif;
+    -fx-font-size: 14px;
+}
+
+#infosText{
+    -fx-background-color: #fff;
+    -fx-alignment: justify;
+    -fx-padding: 20px;
+    -fx-font-family: Arial, Helvetica, sans-serif;
+    -fx-font-size: 14px;
+}

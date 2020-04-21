@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="568.0" prefWidth="918.0"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.arxivorg.controller.ArticleByDayController">
+   <children>
+      <BarChart fx:id="barChart" layoutX="3.0" layoutY="2.0" prefHeight="543.0" prefWidth="907.0" title="Nombre d'article par jour">
+        <xAxis>
+          <CategoryAxis label="Dates" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="Articles" side="LEFT" />
+        </yAxis>
+      </BarChart>
+   </children>
+</AnchorPane>

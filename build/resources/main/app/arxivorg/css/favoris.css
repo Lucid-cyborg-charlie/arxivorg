@@ -1,0 +1,10 @@
+#deleteButton{
+    -fx-text-fill: #fff;
+    -fx-background-color: #d1154a;
+}
+
+#downloadButton{
+    -fx-text-fill: #fff;
+    -fx-background-color: #1398AB;
+}
+
