@@ -35,6 +35,7 @@ public class ManagerArticle {
         this.articles.addAll(finalArticles);
     }
 
+
     /**
      * load atom file from arxiv api
      * @param
@@ -75,8 +76,6 @@ public class ManagerArticle {
             System.out.println("Error: " + ex.getMessage());
         } return list;
     }
-
-
 
 
     /**
@@ -320,7 +319,6 @@ public class ManagerArticle {
     }
 
 
-
     /**
      * load data from atom file
      * @param
@@ -361,7 +359,6 @@ public class ManagerArticle {
             System.out.println("Error: " + ex.getMessage());
         } return list;
     }
-
 
 
 }

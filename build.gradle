@@ -61,6 +61,7 @@ task(runCLI, dependsOn: 'classes', type: JavaExec) {
     args "today"
 }
 
+
 application {
     mainClassName = 'app.arxivorg.ArxivOrg'
     applicationDefaultJvmArgs = [
