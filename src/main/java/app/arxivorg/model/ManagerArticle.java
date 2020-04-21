@@ -6,10 +6,9 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndPersonImpl;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
-import javafx.scene.control.DatePicker;
+
 import java.io.*;
 import java.net.URL;
-import java.nio.channels.InterruptedByTimeoutException;
 import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -23,8 +22,8 @@ public class ManagerArticle {
 
     private List<Article> articles;
     public static Map<String, Integer> map;
-    public final static Set<String> categories = loadCategories();;
-    public final static List<Article> FinalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&"+
+    public final static Set<String> categories = loadCategories();
+    public final static List<Article> finalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&"+
             "max_results=500&sortBy=submittedDate&sortOrder=descending");
 
     /**
@@ -33,7 +32,7 @@ public class ManagerArticle {
     public ManagerArticle(){
         map = new HashMap<>();
         this.articles = new LinkedList<Article>();
-        this.articles.addAll(FinalArticles);
+        this.articles.addAll(finalArticles);
     }
 
     /**
@@ -86,7 +85,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticlesByCategory(String category){
         if(category.equals("Toutes")){
-            return FinalArticles;
+            return finalArticles;
         }
        return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=cat:" +
                category+"&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
@@ -99,7 +98,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticlesByPeriod(LocalDate period){
         List<Article> articleList = new LinkedList<>();
-        for(Article article : FinalArticles){
+        for(Article article : finalArticles){
             if(period(period, convertToLocalDateViaInstant(article.getPublished()))) articleList.add(article);
         }
         return articleList;
@@ -236,7 +235,7 @@ public class ManagerArticle {
      */
     private static Set<String> extractDate(){
         Set<String> list = new HashSet<>();
-        for(Article article : FinalArticles){
+        for(Article article : finalArticles){
             LocalDate localDate = convertToLocalDateViaInstant(article.getPublished());
             list.add(localDate.getDayOfMonth()+"/"+localDate.getMonth()+"/"+localDate.getYear());
         } return list;
@@ -247,7 +246,7 @@ public class ManagerArticle {
      */
     private static Set<String> extractAuthor(){
         Set<String> list = new HashSet<>();
-        for(Article article : FinalArticles){
+        for(Article article : finalArticles){
             list.addAll(article.getAuthors());
         } return list;
     }
@@ -260,7 +259,7 @@ public class ManagerArticle {
         Map<String, Integer> map = new HashMap<>();
         for(String category : categories){
             int cmp = 0;
-            for(Article article : FinalArticles){
+            for(Article article : finalArticles){
                 if(article.getCategories().contains(category)) cmp++;
             } if(cmp > 0) map.put(category, cmp);
         }
@@ -272,16 +271,17 @@ public class ManagerArticle {
      * @return the number of article by day
      */
     public static Map<String, Integer> statArticleByDay(){
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Integer> unSortedMap = new HashMap<>();
         for(String date : extractDate()){
             int cmp = 0;
-            for(Article article: FinalArticles){
+            for(Article article: finalArticles){
                LocalDate localDate = convertToLocalDateViaInstant(article.getPublished());
                if(date.equals(localDate.getDayOfMonth()+"/"+localDate.getMonth()+"/"+localDate.getYear())) cmp++;
             }
-           map.put(date, cmp);
+           unSortedMap.put(date, cmp);
         }
-        return map;
+        Map<String, Integer> sortedMap = new TreeMap<String, Integer>(unSortedMap);
+        return sortedMap;
     }
 
 
@@ -292,7 +292,7 @@ public class ManagerArticle {
         Map<String, Integer> map = new HashMap<>();
         for(String author : extractAuthor()){
             int cmp = 0;
-            for(Article article: FinalArticles){
+            for(Article article: finalArticles){
                 if(article.getAuthors().contains(author)) cmp++;
             }
             if(cmp >= 2)map.put(author, cmp);  // only authors with more than one article are selected
@@ -311,7 +311,7 @@ public class ManagerArticle {
         Map<String, Integer> map = new HashMap<>();
         for(String expression : list){
             int cmp = 0;
-            for(Article article : FinalArticles){
+            for(Article article : finalArticles){
                 if(article.getTitle().contains(expression) || article.getSummary().contains(expression)) cmp++;
             }
             if(cmp > 0) map.put(expression, cmp);

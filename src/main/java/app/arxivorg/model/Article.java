@@ -1,5 +1,7 @@
 package app.arxivorg.model;
 
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -143,6 +145,21 @@ public class Article {
         return id.equals(article.id);
     }
 
+    /**
+     * return the correct date format
+     * @param date
+     * @return
+     */
+    public static String formatOfDate(Date date){
+        String format = "dd/MM/yyyy à H:mm:ss";
+        SimpleDateFormat formatting = new SimpleDateFormat(format);
+        try {
+            String res = formatting.format(date);
+            return res;
+        }catch (Exception e){
+            return "";
+        }
+    }
 
     @Override
     public int hashCode() {
@@ -154,12 +171,12 @@ public class Article {
      */
     @Override
     public String toString() {
-        return "Article{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", summary='" + summary + '\'' +
-                ", updated='" + updated + '\'' +
-                ", published='" + published + '\'' +
-                '}';
+        StringBuffer stringBuffer=new StringBuffer();
+        stringBuffer.append("Titre: "+title);
+        stringBuffer.append("\nAuteurs: "+authors.toString());
+        stringBuffer.append("\nID: "+id);
+        stringBuffer.append("\nPublié le "+formatOfDate(published));
+        return stringBuffer.toString();
     }
+
 }

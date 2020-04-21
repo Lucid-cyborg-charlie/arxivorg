@@ -41,6 +41,16 @@ public class User {
     }
 
     /**
+     * remove all articles
+     */
+    public static void removeAllArticles(){
+        List<String> listId=readFile();
+        for(String id: listId){
+            removeArticle(id);
+        }
+    }
+
+    /**
      * Read the file favoris.txt
      * @return list of id
      */
