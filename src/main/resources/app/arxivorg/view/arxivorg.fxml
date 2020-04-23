@@ -187,10 +187,10 @@
                      <graphic>
                         <FontIcon iconLiteral="eli-signal" />
                      </graphic></MenuItem>
-                <MenuItem mnemonicParsing="false" onAction="#statArticleByCategory" text="Articles par catégories" />
-                  <MenuItem mnemonicParsing="false" onAction="#statArticleByDay" text="Articles par jours" />
-                  <MenuItem mnemonicParsing="false" onAction="#statArticleByAuthor" text="Auteurs productifs" />
-                  <MenuItem mnemonicParsing="false" onAction="#statArticleByExpression" text="Expressions courantes" />
+                <MenuItem fx:id="item1" mnemonicParsing="false" onAction="#statArticleByCategory" text="Articles par catégories" />
+                  <MenuItem fx:id="item2" mnemonicParsing="false" onAction="#statArticleByDay" text="Articles par jours" />
+                  <MenuItem fx:id="item3" mnemonicParsing="false" onAction="#statArticleByAuthor" text="Auteurs productifs" />
+                  <MenuItem fx:id="item4" mnemonicParsing="false" onAction="#statArticleByExpression" text="Expressions courantes" />
                   <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#closeWindows" text="Quitter" />
               </items>
                <graphic>

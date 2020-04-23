@@ -1,8 +1,6 @@
 package app.arxivorg.commandeLine;
 
-/**
- * Class Exiter
- */
+
 public class Exiter implements Command {
 
     @Override

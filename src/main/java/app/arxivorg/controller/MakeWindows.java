@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.util.List;
 
 
-/**
- * Abstract class Controller
- */
 public abstract class MakeWindows {
 
 

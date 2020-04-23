@@ -16,9 +16,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-/**
- * Favorites Controller
- */
+
 public class FavoritesController extends MakeWindows implements Initializable {
 
     @FXML

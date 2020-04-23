@@ -7,7 +7,8 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public class ArxivOrgCLI {
-    public static void main(String[] args) throws ParseException, IOException {
+
+    public static void main(String[] args) throws IOException {
         System.out.println("Welcome to the arXiv organizer!");
         System.out.println("You requested command '" + args[0] + "' with parameter '" + args[1] + "'");
 

@@ -4,10 +4,9 @@ import java.io.*;
 import java.util.*;
 
 
-/**
- * Class User
- */
 public class User {
+
+    private static final String fileName = "src/main/resources/app/arxivorg/data/favoris.txt";
 
     /**
      * save the id of article in favoris.txt
@@ -26,7 +25,7 @@ public class User {
         try {
             List<String> idList=readFile();
             StringBuffer stringBuffer=new StringBuffer();
-            file = new BufferedWriter(new FileWriter("src/main/resources/favoris.txt"));
+            file = new BufferedWriter(new FileWriter(""));
             for(String e: idList){
                 if(!e.equals(lastValue))
                     stringBuffer.append(e+"\n");
@@ -58,7 +57,7 @@ public class User {
         List<String> idList=new ArrayList<>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/favoris.txt")));
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
             String line;
             while ((line = reader.readLine()) != null) {
                 idList.add(line);
@@ -80,7 +79,7 @@ public class User {
         try {
             List<String> idList=readFile();
             StringBuffer stringBuffer=new StringBuffer();
-            file = new BufferedWriter(new FileWriter("src/main/resources/favoris.txt"));
+            file = new BufferedWriter(new FileWriter(fileName));
             for(String e: idList){
                 stringBuffer.append(e+"\n");
             }

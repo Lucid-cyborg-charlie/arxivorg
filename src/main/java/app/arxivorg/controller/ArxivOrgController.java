@@ -17,14 +17,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 import java.net.URL;
 import java.util.*;
 
 
-/**
- *  ArxivOrg Controller
- */
 public class ArxivOrgController extends MakeWindows implements Initializable {
 
     @FXML

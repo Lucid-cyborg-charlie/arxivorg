@@ -1,12 +1,9 @@
 package app.arxivorg.model;
 
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Class Article
- */
+
 public class Article {
 
     private String id;

@@ -14,12 +14,12 @@ test {
     maxHeapSize = "1024m"
 
     // Headless test execution (true by default)
-    if (project.hasProperty("headless") ? project.headless : true) {
+    /*if (project.hasProperty("headless") ? project.headless : true) {
         jvmArgs "-Dtestfx.robot=glass"
         jvmArgs "-Dtestfx.headless=true"
         jvmArgs "-Dprism.order=sw"
         jvmArgs "-Dprism.text=t2k"
-    }
+    }*/
 
     beforeTest {
         descriptor -> logger.lifecycle("Running test: " + descriptor)
