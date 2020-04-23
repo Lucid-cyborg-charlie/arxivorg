@@ -1,6 +1,12 @@
 # ArxivOrg
 
-Ceci est le projet de base pour l'UE Projet: initiation génie logicielle.
+Membres de l'équipe de projet
 
-Pierre
-DJEDJIGA
+AKPATA Kodjo Pierre
+
+NGUEMA MEZUI Charles
+
+SADOUN Djedjiga
+
+LAIHEM Kahina
+
