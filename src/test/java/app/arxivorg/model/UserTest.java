@@ -1,10 +1,7 @@
 package app.arxivorg.model;
 
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -12,6 +9,7 @@ class UserTest {
 
     @Test
     void saveArticle() {
+        User.removeAllArticles();
         assertTrue(User.saveArticle("2004.03543v1"));
         assertTrue(User.saveArticle("2004.03540v1"));
         assertTrue(User.saveArticle("2004.03522v1"));

@@ -2,14 +2,12 @@ package app.arxivorg.commandeLine;
 
 import app.arxivorg.model.Article;
 import app.arxivorg.model.ManagerArticle;
-
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 public class Download implements Command{
 

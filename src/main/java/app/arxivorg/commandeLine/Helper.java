@@ -1,8 +1,6 @@
 package app.arxivorg.commandeLine;
 
-/**
- * Class Helper
- */
+
 public class Helper implements Command {
 
     @Override

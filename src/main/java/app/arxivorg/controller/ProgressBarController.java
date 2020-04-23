@@ -16,9 +16,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-/**
- * Class ProgressBarController
- */
 public class ProgressBarController implements Initializable {
 
     @FXML

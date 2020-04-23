@@ -16,20 +16,18 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-/**
- * Favorites Controller
- */
+
 public class FavoritesController extends MakeWindows implements Initializable {
 
     @FXML
-    public ListView listView;
+    public ListView<TextFlow> listView;
     @FXML
     public Button deleteButton;
     @FXML
     public Button downloadButton;
 
-    private int currentIndex = 1;
-    private List<Article> favorites=new ArrayList<>();
+    private int currentIndex = -1;
+    private List<Article> favorites=new ArrayList<Article>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,7 +67,7 @@ public class FavoritesController extends MakeWindows implements Initializable {
     @FXML
     public void downloadArticle(ActionEvent actionEvent) {
         Article article = getSelectedArticle();
-        List<Article> articles = new ArrayList<>();
+        List<Article> articles = new ArrayList<Article>();
         articles.add(article);
         displayDownloadProgressBar(articles);
     }
@@ -91,8 +89,12 @@ public class FavoritesController extends MakeWindows implements Initializable {
      * @return article selected in List View
      */
     private Article getSelectedArticle() {
-        Article article = favorites.get(currentIndex);
-        return article;
+        try {
+            Article article = favorites.get(currentIndex);
+            return article;
+        }catch (Exception e){
+            return null;
+        }
     }
 
 

@@ -2,34 +2,37 @@ package app.arxivorg.controller;
 
 import app.arxivorg.model.*;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-/**
- *  ArxivOrg Controller
- */
 public class ArxivOrgController extends MakeWindows implements Initializable {
 
     @FXML
     public TextFlow infosText;
     @FXML
+    public Button severalDownloadButton;
+    @FXML
     private MenuButton preferenceButton;
     @FXML
     public Button oneDownloadButton;
     @FXML
-    private ListView<TextFlow> listView;
+    private ListView<Article> listView;
     @FXML
     private ComboBox<String> categoryComboBox;
     @FXML
@@ -42,17 +45,19 @@ public class ArxivOrgController extends MakeWindows implements Initializable {
     private CheckBox favoriteCheckBox;
     @FXML
     private StackPane stackPane;
-    final ProgressIndicator loadingIndicator = new ProgressIndicator();
 
+    final ProgressIndicator loadingIndicator = new ProgressIndicator();
     private  ManagerArticle managerArticle = new ManagerArticle();
     private List<Article> favorites;
+    private List<Article> articlesSelected = new ArrayList<>();
     private int currentIndex = -1;
+    private int count=0;
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
         displayArticles(managerArticle.getArticles());
         displayCategories();
-        favorites=User.getArticlesByID();
+        favorites = User.getArticlesByID();
         stackPane.getChildren().add(loadingIndicator);
         loadingIndicator.setVisible(false);
     }
@@ -64,10 +69,27 @@ public class ArxivOrgController extends MakeWindows implements Initializable {
      */
     private void displayArticles(List<Article> articles){
         for(Article article: articles){
-            TextFlow flow = new TextFlow();
-            flow.getChildren().addAll(getStyleText(article));
-            listView.getItems().add(flow);
+            listView.getItems().add(article);
         }
+        listView.setCellFactory(CheckBoxListCell.forListView(new Callback<Article, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(Article item) {
+                BooleanProperty observable = new SimpleBooleanProperty();
+                observable.addListener((obs, wasSelected, isNowSelected) ->{
+                    if(isNowSelected) {
+                        articlesSelected.add(item);
+                        count++;
+                        updateSeveralDownloadsButton();
+                    }
+                    if(!isNowSelected){
+                        articlesSelected.remove(item);
+                        count--;
+                        updateSeveralDownloadsButton();
+                    }
+                });
+                return observable;
+            }
+        }));
     }
 
 
@@ -86,28 +108,11 @@ public class ArxivOrgController extends MakeWindows implements Initializable {
         authors.setStyle("-fx-fill: #1665c1;");
         Text id=new Text("\nID: "+article.getId());
         id.setStyle("-fx-fill: #1665c1;");
-        Text date=new Text("\nPublié le "+formatOfDate(article.getPublished()));
+        Text date=new Text("\nPublié le "+Article.formatOfDate(article.getPublished()));
         texts.add(titre); texts.add(labelAuthors); texts.add(authors); texts.add(id);
         texts.add(date);
         return texts;
 
-    }
-
-
-    /**
-     * return the correct date format
-     * @param date
-     * @return
-     */
-    private static String formatOfDate(Date date){
-        String format = "dd/MM/yyyy H:mm:ss";
-        SimpleDateFormat formatting = new SimpleDateFormat(format);
-        try {
-            String res = formatting.format(date);
-            return res;
-        }catch (Exception e){
-            return "";
-        }
     }
 
 
@@ -172,6 +177,15 @@ public class ArxivOrgController extends MakeWindows implements Initializable {
             oneDownloadButton.setDisable(false);
             favoriteCheckBox.setDisable(false);
         }
+    }
+
+
+    /**
+     * Update the button of download several articles
+     */
+    private void updateSeveralDownloadsButton(){
+        if(count==0) severalDownloadButton.setDisable(true);
+        else severalDownloadButton.setDisable(false);
     }
 
 
@@ -347,7 +361,7 @@ public class ArxivOrgController extends MakeWindows implements Initializable {
      */
     @FXML
     public void downloadSeveralArticles(ActionEvent actionEvent) {
-        displayDownloadProgressBar(managerArticle.getArticles());
+        displayDownloadProgressBar(articlesSelected);
     }
 
 

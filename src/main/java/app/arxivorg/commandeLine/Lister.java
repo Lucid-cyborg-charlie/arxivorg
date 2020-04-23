@@ -9,9 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Class Lister
- */
+
 public class Lister implements Command {
 
     private ManagerArticle managerArticle;
