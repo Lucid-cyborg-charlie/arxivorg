@@ -50,6 +50,7 @@ public class ArxivOrgController extends MakeWindows implements Initializable {
     private  ManagerArticle managerArticle = new ManagerArticle();
     private List<Article> favorites;
     private List<Article> articlesSelected = new ArrayList<>();
+    private Graph graph = new Graph(managerArticle);
     private int currentIndex = -1;
     private int count=0;
 
@@ -404,8 +405,15 @@ public class ArxivOrgController extends MakeWindows implements Initializable {
         makeWindows("/app/arxivorg/view/articleByAuthor.fxml", "statistique",null);
     }
 
-
+    @FXML
     public void statArticleByExpression(ActionEvent actionEvent) {
         makeWindows("/app/arxivorg/view/articleByExpression.fxml", "statistique", null);
+    }
+
+    @FXML
+    public void graphOfAuthor(ActionEvent actionEvent) {
+        FXMLLoader loader = makeWindows("/app/arxivorg/view/graph.fxml", "graphe d'auteurs", null);
+        GraphController graphController = loader.getController();
+        graphController.buildGarph(graph);
     }
 }

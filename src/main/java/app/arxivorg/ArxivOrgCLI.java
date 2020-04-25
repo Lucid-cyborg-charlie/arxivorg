@@ -3,7 +3,6 @@ package app.arxivorg;
 import app.arxivorg.commandeLine.*;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Scanner;
 
 public class ArxivOrgCLI {

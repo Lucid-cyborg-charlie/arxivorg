@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.util.List;
@@ -28,6 +27,7 @@ public class ProgressBarController implements Initializable {
     private Label progressLabel;
 
     private String path;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         path =  FileSystems.getDefault().getPath(System.getProperty("user.home"), "/Documents/", "arxivorg").toString();

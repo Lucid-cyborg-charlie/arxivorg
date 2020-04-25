@@ -6,7 +6,6 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndPersonImpl;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
-
 import java.io.*;
 import java.net.URL;
 import java.nio.file.*;
@@ -17,19 +16,21 @@ import java.util.*;
 
 public class ManagerArticle {
 
+    private Set<String> authors;
     private List<Article> articles;
     public static Map<String, Integer> map;
     public final static Set<String> categories = loadCategories();
+    private static final int SIZE_OF_ARTICLES = 100;
     public final static List<Article> finalArticles = loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:all&start=0&"+
-            "max_results=500&sortBy=submittedDate&sortOrder=descending");
+            "max_results="+ SIZE_OF_ARTICLES +"&sortBy=submittedDate&sortOrder=descending");
 
-    /**
-     * Constructor
-     */
+
     public ManagerArticle(){
-        map = new HashMap<>();
+        this.map = new HashMap<>();
         this.articles = new LinkedList<Article>();
         this.articles.addAll(finalArticles);
+        this.authors = new HashSet<>();
+        loadAuthors();
     }
 
 
@@ -66,7 +67,6 @@ public class ManagerArticle {
                     SyndCategoryImpl cat = ((SyndCategoryImpl)(category));
                     article.getCategories().add(cat.getName());
                 }
-
                 list.add(article);
             }
         } catch (Exception ex) {
@@ -84,7 +84,7 @@ public class ManagerArticle {
             return finalArticles;
         }
        return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=cat:" +
-               category+"&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
+               category+"&start=0&max_results="+ SIZE_OF_ARTICLES +"&sortBy=submittedDate&sortOrder=descending");
     }
 
 
@@ -107,7 +107,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticlesByAuthor(String author){
         return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=au:" +
-                author+"&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
+                author+"&start=0&max_results="+ SIZE_OF_ARTICLES +"&sortBy=submittedDate&sortOrder=descending");
     }
 
 
@@ -117,7 +117,7 @@ public class ManagerArticle {
      */
     public List<Article> getArticleByKeyWord(String word){
         return loadDataFromAPI("http://export.arxiv.org/api/query?search_query=all:" +
-                word+"&start=0&max_results=500&sortBy=submittedDate&sortOrder=descending");
+                word+"&start=0&max_results="+ SIZE_OF_ARTICLES +"&sortBy=submittedDate&sortOrder=descending");
     }
 
 
@@ -189,24 +189,21 @@ public class ManagerArticle {
     }
 
 
-    /**
-     * @return
-     */
     public List<Article> getArticles(){
         return articles;
     }
 
 
-    /**
-     * @return  api categories
-     */
+    public Set<String> getAuthors() {
+        return authors;
+    }
+
+
     public Set <String> getCategories() {
         return categories;
     }
 
-    /**
-     * @param filterArticles
-     */
+
     public void setArticles(List<Article> filterArticles) {
         this.articles=filterArticles;
     }
@@ -313,6 +310,31 @@ public class ManagerArticle {
             if(cmp > 0) map.put(expression, cmp);
         }
         ManagerArticle.map = map;
+    }
+
+    /**
+     * load list of authors
+     */
+    private void loadAuthors(){
+        for(Article article: finalArticles){
+            authors.addAll(article.getAuthors());
+        }
+    }
+
+    /**
+     *
+     * @param author1
+     * @param author2
+     * @return true if author1 and author2 is coauthors
+     */
+    public boolean isCoauthors(String author1, String author2){
+        int count=0;
+        for(Article article: finalArticles){
+            if(article.getAuthors().contains(author1) && article.getAuthors().contains(author2)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

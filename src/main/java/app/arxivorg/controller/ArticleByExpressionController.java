@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;

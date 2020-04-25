@@ -187,7 +187,8 @@
                      <graphic>
                         <FontIcon iconLiteral="eli-signal" />
                      </graphic></MenuItem>
-                <MenuItem fx:id="item1" mnemonicParsing="false" onAction="#statArticleByCategory" text="Articles par catégories" />
+                  <MenuItem fx:id="item5" mnemonicParsing="false" onAction="#graphOfAuthor" text="Graphe des auteurs" />
+                  <MenuItem fx:id="item1" mnemonicParsing="false" onAction="#statArticleByCategory" text="Articles par catégories" />
                   <MenuItem fx:id="item2" mnemonicParsing="false" onAction="#statArticleByDay" text="Articles par jours" />
                   <MenuItem fx:id="item3" mnemonicParsing="false" onAction="#statArticleByAuthor" text="Auteurs productifs" />
                   <MenuItem fx:id="item4" mnemonicParsing="false" onAction="#statArticleByExpression" text="Expressions courantes" />
